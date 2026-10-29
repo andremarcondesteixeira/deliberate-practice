@@ -8,7 +8,7 @@ if [ ! -d "$PRACTICE_DIR" ]; then
     exit 1
 fi
 
-# Find all .md files in the script's directory (excluding README.md if desired)
+# Find all .md files in the script's directory
 shopt -s nullglob
 files=("$PRACTICE_DIR"/*.md)
 shopt -u nullglob
@@ -31,39 +31,65 @@ rand_file="${filtered_files[RANDOM % ${#filtered_files[@]}]}"
 topic=$(basename "$rand_file" .md)
 topic_upper=$(echo "$topic" | tr '[:lower:]' '[:upper:]')
 
-# Parse multi-line markdown items using awk
-items=()
-while IFS= read -r item; do
-    [ -n "$item" ] && items+=("$item")
+# Parse file to capture section headers (## Subtitles) alongside their items
+# Format output: SUBTITLE§§§ITEM_TEXT
+entries=()
+while IFS= read -r entry; do
+    [ -n "$entry" ] && entries+=("$entry")
 done < <(awk '
-BEGIN { item = ""; }
+BEGIN { 
+    section = "GENERAL";
+    item = "";
+}
 {
-    if ($0 ~ /^[ \t]*([-*]|\d+\.)[ \t]+/) {
-        if (item != "") print item;
+    # Capture section headers (## Subtitles)
+    if ($0 ~ /^##[ \t]+/) {
+        if (item != "") {
+            print section "§§§" item;
+            item = "";
+        }
+        sub(/^##[ \t]+/, "", $0);
+        section = $0;
+    } else if ($0 ~ /^([*-]|\d+\.)[ \t]+/) {
+        if (item != "") {
+            print section "§§§" item;
+        }
         item = $0;
     } else if (item != "" && $0 !~ /^[ \t]*$/) {
-        item = item " " $0;
+        # Append continuation lines, nested bullets, or sub-notes
+        item = item "\n" $0;
     } else if ($0 ~ /^[ \t]*$/) {
-        if (item != "") { print item; item = ""; }
+        if (item != "") {
+            print section "§§§" item;
+            item = "";
+        }
     }
 }
-END { if (item != "") print item; }
+END { 
+    if (item != "") print section "§§§" item; 
+}
 ' "$rand_file")
 
-if [ ${#items[@]} -eq 0 ]; then
+if [ ${#entries[@]} -eq 0 ]; then
     echo "[-] No valid list items found in topic: $topic"
     exit 1
 fi
 
-# Pick a random item from the selected file
-rand_item="${items[RANDOM % ${#items[@]}]}"
+# Pick a random entry
+rand_entry="${entries[RANDOM % ${#entries[@]}]}"
 
-# Display clean terminal card
+# Split subtitle and item text using the custom delimiter
+IFS="§§§" read -r subtitle item_text <<< "$rand_entry"
+
+# Display clean terminal card with Topic, Subtitle, and Item
 echo ""
 echo "┌─────────────────────────────────────────────────────────┐"
-echo "│          🧠 DELIBERATE PRACTICE: $topic_upper           │"
-echo "└─────────────────────────────────────────────────────────┘"
+echo "│                DELIBERATE PRACTICE TIME!                 "
+echo "├─────────────────────────────────────────────────────────┤"
+echo "│ TOPIC:    $topic_upper"
+echo "│ SUBTITLE: $subtitle"
+echo "├─────────────────────────────────────────────────────────┤"
 echo ""
-echo "$rand_item"
+echo -e "$item_text"
 echo ""
 echo "-----------------------------------------------------------"
