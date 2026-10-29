@@ -31,7 +31,8 @@ rand_file="${filtered_files[RANDOM % ${#filtered_files[@]}]}"
 topic=$(basename "$rand_file" .md)
 topic_upper=$(echo "$topic" | tr '[:lower:]' '[:upper:]')
 
-# Parse file using awk into clean SUBTITLE@@@ITEM blocks
+# Parse file using awk. A new card starts ONLY if a line starts with a bullet 
+# AND has NO leading spaces (top-level only). Indented sub-bullets are grouped.
 entries=()
 while IFS= read -r entry; do
     [ -n "$entry" ] && entries+=("$entry")
@@ -52,20 +53,19 @@ BEGIN {
         }
         sub(/^##[ \t]+/, "", $0);
         section = $0;
-    } else if ($0 ~ /^[ \t]*([*-]|[0-9]+\.)[ \t]+/) {
+    } else if ($0 ~ /^([*-]|[0-9]+\.)[ \t]+/) {
+        # STRICT MATCH: Only top-level bullets with zero leading whitespace trigger a new card
         if (item != "") {
             gsub(/\n/, "\\n", item);
             print section "@@@" item;
         }
         item = $0;
-    } else if (item != "" && $0 !~ /^[ \t]*$/) {
+    } else if (item != "" && $0 !~ /^#[#]+/) {
+        # Append indented lines, sub-bullets, and setup notes to the current card
         item = item "\n" $0;
-    } else if ($0 ~ /^[ \t]*$/) {
-        if (item != "") {
-            gsub(/\n/, "\\n", item);
-            print section "@@@" item;
-            item = "";
-        }
+    } else if ($0 ~ /^[ \t]*$/ && item != "") {
+        # Keep blank lines inside multi-line cards if they are part of a lab block
+        item = item "\n" $0;
     }
 }
 END { 
@@ -91,15 +91,22 @@ item_text="${rand_entry#*@@@}"
 # Restore actual newlines in the item text
 item_text=$(echo -e "$item_text" | sed 's/\\n/\n/g')
 
-# Display clean terminal card with Topic, Subtitle, and Item
+# Display clean terminal card using standard characters
 echo ""
-echo "┌─────────────────────────────────────────────────────────┐"
-echo "│                 DELIBERATE PRACTICE TIME!               │"
-echo "├─────────────────────────────────────────────────────────┤"
-echo "│ TOPIC:    $topic_upper"
-echo "│ SUBTITLE: $subtitle"
-echo "├─────────────────────────────────────────────────────────┤"
+echo "+---------------------------------------------------------+"
+echo "|                 DELIBERATE PRACTICE TIME!               |"
+echo "+---------------------------------------------------------+"
+echo "| TOPIC:    $topic_upper"
+echo "| SUBTITLE: $subtitle"
+echo "+---------------------------------------------------------+"
 echo ""
-echo -e "$item_text"
+
+# Render using Glow if available, otherwise fall back to standard echo -e
+if command -v glow &> /dev/null; then
+    echo -e "$item_text" | glow -
+else
+    echo -e "$item_text"
+fi
+
 echo ""
-echo "-----------------------------------------------------------"
+echo "+---------------------------------------------------------+"
