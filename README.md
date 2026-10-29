@@ -23,7 +23,46 @@ chmod +x challenge.sh
 
 ---
 
-### 💻 Step 2: Configure Your Terminal Startup
+### 🎨 Step 2 (Optional): Install Glow for Rich Terminal Styling
+
+`challenge.sh` includes optional support for **Glow**, a terminal-based Markdown renderer. If `glow` is installed on your system, challenge cards will be rendered with full Markdown styling, colors, and syntax highlighting. If `glow` is not installed, the script safely falls back to standard text output.
+
+#### 🐧 Linux
+* **Debian/Ubuntu:**
+  sudo mkdir -p /etc/apt/keyrings
+  curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list
+  sudo apt update && sudo apt install glow
+
+* **Fedora/RHEL:**
+  echo '[charm]
+  name=Charm
+  baseurl=https://repo.charm.sh/yum/
+  enabled=1
+  gpgcheck=1
+  gpgkey=https://repo.charm.sh/yum/gpg.key' | sudo tee /etc/yum.repos.d/charm.repo
+  sudo yum install glow
+
+* **Arch Linux:**
+  sudo pacman -S glow
+
+#### 🍏 macOS
+Using Homebrew:
+brew install glow
+
+#### 🪟 Windows
+Using WinGet (PowerShell/CMD):
+winget install charmbracelet.glow
+
+Using Scoop:
+scoop install glow
+
+Using Chocolatey:
+choco install glow
+
+---
+
+### 💻 Step 3: Configure Your Terminal Startup
 
 To have a challenge automatically display every time you open a new terminal window or tab, add the execution command to your shell's startup profile. Choose your environment below:
 
