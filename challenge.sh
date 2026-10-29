@@ -31,42 +31,48 @@ rand_file="${filtered_files[RANDOM % ${#filtered_files[@]}]}"
 topic=$(basename "$rand_file" .md)
 topic_upper=$(echo "$topic" | tr '[:lower:]' '[:upper:]')
 
-# Parse file to capture section headers (## Subtitles) alongside their items
-# Format output: SUBTITLE§§§ITEM_TEXT
+# Parse file using awk into clean SUBTITLE@@@ITEM blocks
 entries=()
 while IFS= read -r entry; do
     [ -n "$entry" ] && entries+=("$entry")
 done < <(awk '
+{
+    sub(/\r$/, "");
+}
 BEGIN { 
     section = "GENERAL";
     item = "";
 }
 {
-    # Capture section headers (## Subtitles)
     if ($0 ~ /^##[ \t]+/) {
         if (item != "") {
-            print section "§§§" item;
+            gsub(/\n/, "\\n", item);
+            print section "@@@" item;
             item = "";
         }
         sub(/^##[ \t]+/, "", $0);
         section = $0;
-    } else if ($0 ~ /^([*-]|\d+\.)[ \t]+/) {
+    } else if ($0 ~ /^[ \t]*([*-]|[0-9]+\.)[ \t]+/) {
         if (item != "") {
-            print section "§§§" item;
+            gsub(/\n/, "\\n", item);
+            print section "@@@" item;
         }
         item = $0;
     } else if (item != "" && $0 !~ /^[ \t]*$/) {
-        # Append continuation lines, nested bullets, or sub-notes
         item = item "\n" $0;
     } else if ($0 ~ /^[ \t]*$/) {
         if (item != "") {
-            print section "§§§" item;
+            gsub(/\n/, "\\n", item);
+            print section "@@@" item;
             item = "";
         }
     }
 }
 END { 
-    if (item != "") print section "§§§" item; 
+    if (item != "") {
+        gsub(/\n/, "\\n", item);
+        print section "@@@" item;
+    }
 }
 ' "$rand_file")
 
@@ -78,13 +84,17 @@ fi
 # Pick a random entry
 rand_entry="${entries[RANDOM % ${#entries[@]}]}"
 
-# Split subtitle and item text using the custom delimiter
-IFS="§§§" read -r subtitle item_text <<< "$rand_entry"
+# Split subtitle and item text using @@@
+subtitle="${rand_entry%%@@@*}"
+item_text="${rand_entry#*@@@}"
+
+# Restore actual newlines in the item text
+item_text=$(echo -e "$item_text" | sed 's/\\n/\n/g')
 
 # Display clean terminal card with Topic, Subtitle, and Item
 echo ""
 echo "┌─────────────────────────────────────────────────────────┐"
-echo "│                DELIBERATE PRACTICE TIME!                 "
+echo "│                 DELIBERATE PRACTICE TIME!               │"
 echo "├─────────────────────────────────────────────────────────┤"
 echo "│ TOPIC:    $topic_upper"
 echo "│ SUBTITLE: $subtitle"
