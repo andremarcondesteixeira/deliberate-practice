@@ -113,7 +113,7 @@ if [ "$unseen" -eq 0 ] && [ "$count" -gt 0 ]; then
     IFS=$'\t' read -r total unseen <<< "${output%%$'\n'*}"
 fi
 
-shown=0
+marked=0
 while IFS=$'\t' read -r id topic section body; do
     [ -n "$id" ] || continue
     body=${body//$'\037'/$'\n'}
@@ -135,15 +135,22 @@ while IFS=$'\t' read -r id topic section body; do
         printf '%s\n' "$body"
     fi
 
-    printf '%s\n' "$id" >> "$SEEN_FILE"
-    shown=$((shown + 1))
-done < <(tail -n +2 <<< "$output")
+    # Only count the card once you confirm you worked through it. Without a
+    # terminal to ask on, leave it unseen so it comes back later.
+    [ -t 3 ] || continue
+    echo ""
+    read -r -p "Mark this card as done? [y/N, q to quit] " answer <&3
+    case "$answer" in
+        [yY]*) printf '%s\n' "$id" >> "$SEEN_FILE"; marked=$((marked + 1)) ;;
+        [qQ]*) break ;;
+    esac
+done 3<&0 < <(tail -n +2 <<< "$output")
 
 # Progress through the current cycle
 now=$(date +%s)
 start=$(cat "$CYCLE_START_FILE")
 day=$(( (now - start) / 86400 + 1 ))
-remaining=$(( unseen - shown ))
+remaining=$(( unseen - marked ))
 done_count=$(( total - remaining ))
 days_left=$(( CYCLE_DAYS - day + 1 ))
 
