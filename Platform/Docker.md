@@ -18,7 +18,7 @@
 * **Base Image Choice:** Compare `scratch`, Alpine (musl), distroless, and full distributions regarding attack surface, compatibility, and debuggability.
 * **Build Context & .dockerignore:** Why does sending `.git`, `node_modules`, or build output in the build context slow builds and leak secrets?
 * **Tags vs Digests:** Why are mutable tags like `latest` a reproducibility and security risk, and how do you pin by digest (`@sha256:...`) while still receiving updates?
-* **BuildKit Cache Mounts:** How do `--mount=type=cache` mounts keep package manager caches (Maven, npm, pip) across builds without bloating layers?
+* **BuildKit Cache Mounts:** How do `--mount=type=cache` mounts keep package manager caches (Maven, Gradle, pip) across builds without bloating layers?
 * **Build Secrets:** Why are `ARG`/`ENV` secrets visible in image history and layers, and how do BuildKit secret mounts (`--mount=type=secret`) avoid that?
 * **Lab — Slow Builds from Cache Invalidation:**
   * *Setup:* CI takes 15 minutes per build because `COPY . .` near the top of the Dockerfile invalidates every later layer on any change.

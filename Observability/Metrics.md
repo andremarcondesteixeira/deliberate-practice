@@ -6,7 +6,6 @@
 * **OpenTelemetry:** How does OpenTelemetry standardize metrics, logs, and traces across languages (API vs SDK, semantic conventions, OTLP)? What are its metric instruments (counter, up-down counter, histogram, gauge; synchronous vs asynchronous)?
 * **RED, USE & Golden Signals:** Contrast RED (rate, errors, duration) for services, USE (utilization, saturation, errors) for resources, and Google's four golden signals (latency, traffic, errors, saturation).
 * **Whitebox vs Blackbox Monitoring:** Contrast whitebox monitoring (internal metrics) with blackbox probing from outside. Which one catches DNS, TLS, or load balancer failures?
-* **RUM vs Synthetic Monitoring:** Contrast real user monitoring (Core Web Vitals, real devices and networks, JS errors) with synthetic checks (scripted journeys from fixed locations). Why do you need both?
 
 ## Prometheus
 
@@ -28,7 +27,7 @@
   * *Site Reliability Engineering* (Betsy Beyer, Chris Jones, Jennifer Petoff & Niall Richard Murphy, free from Google): the chapter on monitoring distributed systems, which introduces the four golden signals and whitebox vs blackbox monitoring.
   * *Systems Performance* (Brendan Gregg): the methodologies chapter, for the USE method and how to apply it to each resource.
   * *Observability Engineering* (Charity Majors, Liz Fong-Jones & George Miranda): the early chapters on monitoring vs observability and why high-cardinality data matters.
-* **Official docs:** the Prometheus documentation (metric types, "Histograms and summaries", query functions, recording rules, alerting rules, metric and label naming, native histograms); the OpenTelemetry specification's metrics API and semantic conventions; the Thanos and Grafana Mimir documentation (remote write, global view, long-term storage); Google's web.dev documentation on Core Web Vitals.
+* **Official docs:** the Prometheus documentation (metric types, "Histograms and summaries", query functions, recording rules, alerting rules, metric and label naming, native histograms); the OpenTelemetry specification's metrics API and semantic conventions; and the Thanos and Grafana Mimir documentation (remote write, global view, long-term storage).
 * **Related technologies:** compare Prometheus with VictoriaMetrics, Thanos, Cortex, and Mimir (scaling), the Blackbox Exporter (probing), the OpenTelemetry SDKs and Collector (OTLP), and Datadog or Grafana Cloud (hosted options).
 * **Search for:** `RED method` (Tom Wilkie), `USE method` (Brendan Gregg), `four golden signals`, `rate vs irate`, `histogram_quantile accuracy`, `Prometheus native histograms`, `Prometheus cardinality explosion`, `metric_relabel_configs labeldrop`, `exemplars Prometheus Grafana`.
 * **Hands-on:** run Prometheus, node_exporter, and a small instrumented app, graph `rate()` and `irate()` of the same counter side by side, then add a high-cardinality label and watch the TSDB status page grow.

@@ -19,7 +19,7 @@
 * **Content Security Policy:** How does a strict CSP (nonces or hashes, `strict-dynamic`, no `unsafe-inline`) limit the damage of XSS? Why are allowlist-based CSPs often bypassable?
 * **Lab — XSS via Unescaped Templates:**
   * *Setup:* A server-side template renders user comments as raw HTML (`{{{comment}}}`), allowing persistent XSS.
-  * *Challenge:* Enforce context-aware auto-escaping everywhere, and use an HTML sanitizer (DOMPurify, OWASP Java HTML Sanitizer) only where rich text is required.
+  * *Challenge:* Enforce context-aware auto-escaping everywhere, and use an HTML sanitizer (such as the OWASP Java HTML Sanitizer) only where rich text is required.
 * **CSRF:** How does CSRF abuse a logged-in user's cookies to perform state-changing requests? Compare synchronizer tokens, double-submit cookies, `SameSite=Lax`/`Strict`, and origin checks. When is it safe to disable CSRF protection?
 * **CORS:** What is the same-origin policy, which requests trigger an `OPTIONS` preflight, and which response headers control access (`Access-Control-Allow-Origin`, `-Credentials`, `-Methods`, `-Headers`)? Why isn't CORS a server-side security control?
 * **Lab — CORS Origin Reflection:**
@@ -38,9 +38,8 @@
 * **File Uploads:** Which controls make file uploads safe (size limits, checking magic bytes instead of trusting `Content-Type`, random file names, storage outside the web root or in object storage, malware scanning, serving from a separate domain)?
 * **HTTP Request Smuggling:** How do disagreements between a front-end proxy and a back-end server about `Content-Length` and `Transfer-Encoding` let attackers smuggle requests? How does end-to-end HTTP/2 help?
 * **Lab — ReDoS:**
-  * *Setup:* An email validation regex locks a Node.js event loop for 30 seconds when given a crafted string of repeating characters.
+  * *Setup:* An email validation regex pins a Java service's request threads at 100% CPU for 30 seconds when given a crafted string of repeating characters.
   * *Challenge:* Explain catastrophic backtracking (nested quantifiers), rewrite the regex, set input length limits, or use a linear-time engine (RE2).
-* **Prototype Pollution:** How do unsafe recursive merges in JavaScript let attackers set properties on `Object.prototype`, and how can that escalate to privilege bypass or RCE?
 
 ## Access Control & APIs
 
@@ -64,6 +63,6 @@
   * *Web Application Security* (Andrew Hoffman): the defense part on XSS, CSRF, XXE and injection, plus secure architecture, for modern mitigations.
 * **Official docs:** the OWASP Top 10 and OWASP API Security Top 10; OWASP Cheat Sheet Series: SQL Injection Prevention, OS Command Injection Defense, XML External Entity Prevention, Deserialization, Cross Site Scripting Prevention, DOM based XSS Prevention, Content Security Policy, Cross-Site Request Forgery Prevention, Server Side Request Forgery Prevention, File Upload, Mass Assignment and HTTP Headers; the OWASP ASVS; the Fetch Standard's CORS section and MDN's CORS and CSP guides; JEP 290 and JEP 415 for Java deserialization filters; the AWS EC2 docs on IMDSv2.
 * **Papers:** "CSP Is Dead, Long Live CSP! On the Insecurity of Whitelists and the Future of Content Security Policy" (Weichselbaum et al., 2016); "HTTP Desync Attacks: Request Smuggling Reborn" (James Kettle, PortSwigger research, 2019).
-* **Related technologies:** Burp Suite and OWASP ZAP, sqlmap, ysoserial, DOMPurify, RE2, Semgrep and CodeQL, and ModSecurity or Coraza with the OWASP Core Rule Set.
-* **Search for:** `PortSwigger Web Security Academy` (free labs for nearly every card here), `blind SQL injection time based`, `SSTI payloads`, `billion laughs`, `java deserialization gadget chain`, `strict-dynamic CSP`, `CORS origin reflection`, `DNS rebinding SSRF`, `catastrophic backtracking`, `prototype pollution`.
+* **Related technologies:** Burp Suite and OWASP ZAP, sqlmap, ysoserial, the OWASP Java HTML Sanitizer, RE2 and its Java port RE2/J, Semgrep and CodeQL, and ModSecurity or Coraza with the OWASP Core Rule Set.
+* **Search for:** `PortSwigger Web Security Academy` (free labs for nearly every card here), `blind SQL injection time based`, `SSTI payloads`, `billion laughs`, `java deserialization gadget chain`, `strict-dynamic CSP`, `CORS origin reflection`, `DNS rebinding SSRF`, `catastrophic backtracking`.
 * **Hands-on:** run OWASP Juice Shop locally and attack it through Burp Suite or ZAP until you have exploited SQL injection, stored XSS and an IDOR yourself, then look for the same patterns in code you own.

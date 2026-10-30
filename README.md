@@ -9,7 +9,7 @@ Instead of traditional flashcards with answers on the back, these are **front-on
 Every card comes up once per cycle (90 days by default), in random order across all decks, until you mark it done. When every card has been marked done, a new cycle starts automatically. Each card shows a progress line telling you how many cards per day you need to finish the cycle on time:
 
 ```
-| CYCLE:    312/926 cards · day 31/90 · 11/day to stay on track
+| CYCLE:    312/961 cards · day 31/90 · 11/day to stay on track
 ```
 
 The cycle is a goal, not a deadline. If you take a break, nothing resets: your progress is kept and the daily target rises to cover the cards left in the days left. After day 90 the line shows how far past the goal you are instead (`· 12 day(s) past the 90-day goal`), and the cycle stays open until you finish it. The next cycle starts on the day you mark the last card. To start over with a fresh 90 days after a long break, reset your progress (see below).
@@ -36,12 +36,13 @@ Decks are grouped by domain, and each concept lives in exactly one deck:
 | `Distributed Systems/` | Time & Clocks, Replication & Consistency, Consensus & Coordination, Partitioning, Distributed Transactions, Batch & Stream Processing |
 | `Databases/` | Storage Engines & Indexing, Transactions & Isolation, Query Performance, SQL, PostgreSQL Internals, Operations, Data Models & Encoding, Specialized Datastores, MongoDB, Redis |
 | `Messaging/` | Apache Kafka, RabbitMQ |
-| `Architecture/` | Architectural Styles, DDD, Microservices, Event-Driven & Data Patterns, Resilience Patterns, Quality Attributes & Governance |
+| `Architecture/` | Architectural Styles, DDD, Microservices, Event-Driven & Data Patterns, Resilience Patterns, Quality Attributes & Governance, System Design (estimation and design labs) |
 | `Platform/` | Docker, Kubernetes, CI/CD & Delivery, Infrastructure as Code, Configuration & Secrets, Networking |
 | `Observability/` | Metrics, Logging, Tracing, SLOs/Alerting/Incidents, Profiling & Diagnostics |
 | `Security/` | Application Security, Authentication & Identity, Cryptography & TLS, Secure Delivery |
 | `Java/`, `Spring/` | Language, Concurrency, JVM & GC, Platform & Migration · Core & Boot, Data & Transactions, Web/Security/Cloud |
 | `AWS/` | Compute, Storage, Networking, Databases, IAM & Security, Integration, Management & Governance |
+| `Fundamentals/` | Operating Systems |
 
 The card topic shown in the terminal is `FOLDER / FILE`, and the subtitle is the `##` section the card belongs to.
 
