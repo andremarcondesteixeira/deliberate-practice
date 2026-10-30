@@ -25,3 +25,16 @@
 ## Data & Compliance
 
 * **Cascading Deletion & GDPR:** How do you honor a "delete my data" request across many services with polyglot datastores, caches, logs, backups, and event streams (deletion events, crypto-shredding)?
+
+## Study Guide
+
+* **Books:**
+  * *Building Microservices* (Sam Newman): the chapters on modeling services around business domains, communication styles, testing (including contract tests), and organizational structure.
+  * *Monolith to Microservices* (Sam Newman): the chapters on splitting the monolith (strangler fig) and decomposing the database, step by step without downtime.
+  * *Microservices Patterns* (Chris Richardson): the chapters on decomposition, querying across services (API composition, CQRS), external APIs (API gateway, BFF), and testing microservices.
+  * *Team Topologies* (Matthew Skelton & Manuel Pais): the material on Conway's Law, the reverse Conway maneuver, and stream-aligned teams.
+* **Official docs:** the Pact documentation (consumer-driven contracts, Pact Broker, can-i-deploy); the Spring Cloud Contract reference; the Kubernetes documentation on Services and DNS; the gRPC documentation on name resolution and load balancing; the Consul documentation on service discovery; the GDPR text itself (Article 17, the right to erasure).
+* **Papers:** "How Do Committees Invent?" (Melvin Conway, 1968), the origin of Conway's Law.
+* **Related technologies:** compare Kong, Envoy, and Spring Cloud Gateway (API gateways), Eureka, Consul, and Kubernetes Services (discovery), Istio or Linkerd (service mesh), Pact (contract testing), and Debezium (CDC for data extraction).
+* **Search for:** `distributed monolith`, `database per service`, `strangler fig pattern`, `backend for frontend`, `consumer-driven contracts`, `client-side load balancing`, `thundering herd service registry`, `crypto-shredding GDPR`.
+* **Hands-on:** take a small monolith, put a routing proxy in front of it, extract one capability into its own service and database behind the proxy, and add a Pact test between the two.

@@ -40,3 +40,15 @@
 ## Multi-Region
 
 * **Multi-Region Topologies:** Contrast warm standby, active-passive, and active-active multi-region designs regarding replication lag, RPO/RTO, write latency, and conflict handling. Why is active-active much harder for writes than for reads?
+
+## Study Guide
+
+* **Books:**
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Replication chapter (leaders, lag anomalies, multi-leader, leaderless, quorums) and the Consistency and Consensus chapter (linearizability, CAP, causal ordering) cover most of this deck.
+  * *Database Internals* (Alex Petrov): the chapters on replication and consistency (consistency models, session guarantees, quorums, CRDTs) and on anti-entropy (read repair, hinted handoff, Merkle trees).
+  * *Distributed Systems* (Maarten van Steen & Andrew S. Tanenbaum, free from the authors): the Consistency and Replication chapter, for data-centric and client-centric consistency models.
+* **Official docs:** the PostgreSQL manual's "High Availability, Load Balancing, and Replication" and "Logical Replication" chapters; the MySQL manual's replication chapter (semi-synchronous replication, binary log formats); the MongoDB manual's sections on read concern, write concern and causal consistency; the Cassandra docs on consistency levels and repair; and the Patroni documentation.
+* **Papers:** "Dynamo: Amazon's Highly Available Key-value Store" (DeCandia et al., 2007); "Session Guarantees for Weakly Consistent Replicated Data" (Terry et al., 1994); "Linearizability: A Correctness Condition for Concurrent Objects" (Herlihy & Wing, 1990); "Conflict-free Replicated Data Types" (Shapiro, Preguiça, Baquero & Zawirski, 2011); "CAP Twelve Years Later: How the 'Rules' Have Changed" (Brewer, 2012); "Consistency Tradeoffs in Modern Distributed Database System Design" (Abadi, 2012, the PACELC paper).
+* **Related technologies:** compare PostgreSQL and MySQL (single leader, physical vs logical logs), Patroni and Orchestrator (failover), Cassandra and Riak (leaderless), CouchDB (multi-leader with conflicts), Automerge and Yjs (CRDT libraries), and Spanner or CockroachDB (strongly consistent multi-region).
+* **Search for:** `read-your-writes consistency`, `monotonic reads`, `semi-synchronous replication`, `sloppy quorum hinted handoff`, `Merkle tree anti-entropy`, `OR-Set CRDT`, `linearizability vs serializability`, and the consistency models map on the Jepsen site.
+* **Hands-on:** run a PostgreSQL primary with an asynchronous replica in Docker, pause replay with `pg_wal_replay_pause()`, reproduce the stale profile read, then build LSN-based read-your-writes routing using `pg_current_wal_lsn()` and `pg_last_wal_replay_lsn()`.

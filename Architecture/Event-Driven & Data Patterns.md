@@ -30,3 +30,16 @@
 * **Lab — Multi-Tenant Isolation:**
   * *Setup:* A B2B SaaS moving to a shared database must guarantee that no tenant can ever see another tenant's data, while a few large tenants cause noisy-neighbor problems.
   * *Challenge:* Compare database-per-tenant (silo), schema-per-tenant, and shared tables with row-level security (pool) regarding isolation, cost, migrations, and noisy neighbors. How do you enforce tenant scoping so a forgotten `WHERE tenant_id = ?` can't leak data?
+
+## Study Guide
+
+* **Books:**
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Stream Processing chapter (logs vs queues, change data capture, event sourcing) and the chapters on derived data and on encoding and evolution.
+  * *Microservices Patterns* (Chris Richardson): the chapters on transactional messaging (outbox, polling publisher, transaction log tailing), event sourcing, and CQRS queries.
+  * *Enterprise Integration Patterns* (Gregor Hohpe & Bobby Woolf): the patterns for Dead Letter Channel, Idempotent Receiver, Guaranteed Delivery, and Competing Consumers.
+  * *Kafka: The Definitive Guide* (Gwen Shapira, Todd Palino et al.): the chapters on consumers (groups, partitions, rebalances), reliable data delivery, and exactly-once semantics.
+* **Official docs:** the Debezium documentation ("Outbox Event Router"); the Apache Kafka documentation (consumer configuration, delivery semantics); the RabbitMQ documentation ("Dead Letter Exchanges", quorum queues, consumer acknowledgements); the Amazon SQS Developer Guide (visibility timeout, dead-letter queues, FIFO deduplication); Stripe's API reference on idempotent requests; the PostgreSQL manual's "Row Security Policies" section; the Azure Architecture Center's Cloud Design Patterns (cache-aside, CQRS, event sourcing); AWS's *SaaS Tenant Isolation Strategies* whitepaper.
+* **Papers:** "Kafka: a Distributed Messaging System for Log Processing" (Kreps, Narkhede & Rao, 2011); "Scaling Memcache at Facebook" (Nishtala et al., 2013), for leases against stampedes and stale sets; "Optimal Probabilistic Cache Stampede Prevention" (Vattani, Chierichetti & Lowenstein, 2015), the XFetch paper.
+* **Related technologies:** compare Kafka, RabbitMQ, Amazon SQS/SNS, and Apache Pulsar (brokers), Debezium (CDC), EventStoreDB and Axon (event sourcing), Redis (caching and locks), and PostgreSQL row-level security (tenant isolation).
+* **Search for:** `transactional outbox`, `dual write problem`, `idempotency key`, `poison pill message`, `consumer lag partitions`, `CQRS read model eventual consistency`, `event schema evolution`, `cache stampede XFetch`, `single-flight request coalescing`, `silo pool bridge tenancy`.
+* **Hands-on:** run PostgreSQL, Debezium, and Kafka with Docker Compose, write orders plus outbox rows in one transaction, and confirm that a consumer that crashes mid-batch never double-processes an order.

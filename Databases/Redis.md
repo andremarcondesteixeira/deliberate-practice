@@ -54,3 +54,15 @@
 * **Lab — OOM Write Lockout:**
   * *Setup:* A cache hits `maxmemory` with `noeviction`, and every write fails with `OOM command not allowed when used memory > 'maxmemory'`.
   * *Challenge:* Choose the right eviction policy for a cache vs a primary datastore, enforce TTLs, find what's consuming memory, and alert before the limit is reached.
+
+## Study Guide
+
+* **Books:**
+  * *Redis in Action* (Josiah L. Carlson): the data structure chapters and worked examples (locks, counters, queues, leaderboards) plus the chapters on persistence, replication and Lua scripting. It predates Streams, Functions and Redis Cluster, so check current behavior in the docs.
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Replication chapter, for asynchronous replication, failover and split brain, which is the theory behind the write-loss windows in Sentinel and Cluster.
+  * *Systems Performance* (Brendan Gregg): the Memory chapter, for `fork()`, copy-on-write, page tables, huge pages and overcommit behind the persistence labs.
+* **Official docs:** the Redis documentation's pages on data types, key eviction, persistence, replication, Sentinel, scaling with Redis Cluster and the Redis Cluster specification, diagnosing latency, memory optimization, programmability (Lua scripts and Functions), client-side caching, pipelining and transactions. Every command page lists its time complexity, and the self-documented `redis.conf` that ships with Redis explains each setting.
+* **Papers:** "Skip Lists: A Probabilistic Alternative to Balanced Trees" (William Pugh, 1990); "HyperLogLog: The Analysis of a Near-Optimal Cardinality Estimation Algorithm" (Flajolet, Fusy, Gandouet & Meunier, 2007).
+* **Related technologies:** compare Valkey (the open-source fork), KeyDB and Dragonfly (multi-threaded designs), Memcached (a pure cache), Kafka (vs Redis Streams), and managed services such as Amazon ElastiCache.
+* **Search for:** `Redis listpack encoding thresholds`, `Redis approximated LRU sampling`, `Redis fork latency transparent huge pages`, `vm.overcommit_memory Redis`, `PSYNC replication backlog`, `Redis Sentinel min-replicas-to-write`, `Redis hash tags hot slot`, `MOVED ASK redirection`, and antirez's blog post "Redis persistence demystified".
+* **Hands-on:** run Redis locally, use `OBJECT ENCODING` and `MEMORY USAGE` to watch a hash switch from listpack to hashtable as it grows, then fill a small `maxmemory` instance under each eviction policy and compare `evicted_keys` in `INFO stats`.

@@ -32,3 +32,16 @@
 * **Lab — LSM Compaction I/O Spike:**
   * *Setup:* A Cassandra/RocksDB cluster shows severe latency spikes every afternoon, with disks at 100% during large compactions.
   * *Challenge:* Throttle compaction throughput, revisit the compaction strategy (size-tiered vs leveled), and spread or schedule maintenance to smooth I/O.
+
+## Study Guide
+
+* **Books:**
+  * *Database Reliability Engineering* (Laine Campbell & Charity Majors): the chapters on release management (schema migrations), infrastructure engineering and operational visibility, for the operational mindset behind this deck.
+  * *Refactoring Databases* (Scott W. Ambler & Pramod J. Sadalage): the transition-period approach behind expand-and-contract, with a catalog of safe structural changes such as renaming a column.
+  * *Systems Performance* (Brendan Gregg): the Memory, File Systems and Disks chapters for dirty-page flushing, `fsync`, NUMA and SSD behavior, and the Benchmarking chapter for why benchmarks mislead.
+  * *Release It!* (Michael T. Nygard): the stability patterns and antipatterns (timeouts, bulkheads, fail fast, blocked threads), which explain connection pool collapse and retry storms.
+* **Official docs:** the PostgreSQL manual's "Explicit Locking" section (table-level lock modes and which commands take them) and the lock notes on the `ALTER TABLE` reference page; the MySQL Reference Manual's "InnoDB and Online DDL" section; the Debezium documentation for the PostgreSQL and MySQL connectors (snapshots, replication slots, WAL retention); the Flyway and Liquibase docs; the HikariCP wiki page "About Pool Sizing"; and the Linux kernel documentation for the `/proc/sys/vm` settings.
+* **Papers:** "Online, Asynchronous Schema Change in F1" (Ian Rae et al., 2013); "The Unwritten Contract of Solid State Drives" (Jun He et al., 2017).
+* **Related technologies:** `pg_repack`, `gh-ost` and `pt-online-schema-change` for online DDL; Flyway, Liquibase and Sqitch for migrations; PgBouncer and RDS Proxy for pooling; Debezium on Kafka Connect for CDC; `pgbench`, `sysbench` and HammerDB for benchmarks and `fio` for raw disk tests; Cassandra's `nodetool setcompactionthroughput` and RocksDB's rate limiter for compaction throttling.
+* **Search for:** `ALTER TABLE lock queue lock_timeout`, `expand and contract migration`, `parallel change pattern`, `Debezium replication slot WAL growth`, `connection pool sizing cores`, `Little's law connection pool`, `SSD garbage collection latency`, `vm.dirty_ratio write stalls`, `numactl interleave database`, `compaction throttling`, and Jeremy Cole's write-up on "MySQL swap insanity" and NUMA.
+* **Hands-on:** in one `psql` session hold a `SELECT` open inside a transaction, run `ALTER TABLE ... ADD COLUMN` in a second, then try a plain `SELECT` in a third and watch the queue in `pg_stat_activity`; repeat with `SET lock_timeout = '2s'`.

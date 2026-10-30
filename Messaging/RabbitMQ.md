@@ -50,3 +50,14 @@
 * **Lab — Split-Brain Recovery:**
   * *Setup:* After a cloud network glitch, two halves of a cluster diverge, and queue state conflicts when they reconnect.
   * *Challenge:* Explain how `pause_minority` and quorum queues avoid divergence, compared with legacy mirrored queues that needed manual intervention.
+
+## Study Guide
+
+* **Books:**
+  * *RabbitMQ in Depth* (Gavin M. Roy): the AMQP model, channels, publisher confirms, acknowledgements and prefetch, exchange types and routing, and clustering and federation. It predates quorum queues and streams, so use the official docs for those.
+  * *Enterprise Integration Patterns* (Gregor Hohpe & Bobby Woolf): the messaging channel and routing patterns (dead letter channel, competing consumers, message expiration, claim check) that RabbitMQ features implement.
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Stream Processing chapter's comparison of traditional message brokers with log-based ones, for choosing between queues, streams and Kafka.
+* **Official docs:** the RabbitMQ documentation guides "AMQP 0-9-1 Model Explained", "Consumer Acknowledgements and Publisher Confirms", "Quorum Queues", "Streams", "Clustering", "Network Partitions", "Memory and Disk Alarms", "Flow Control", "Dead Letter Exchanges", "Monitoring" and the "Production Checklist"; plus the AMQP 0-9-1 specification for protocol details.
+* **Related technologies:** compare Apache Kafka (log-based, consumer-managed offsets), ActiveMQ Artemis (JMS and AMQP 1.0), NATS JetStream, Amazon SQS/SNS (managed queues and fan-out), and Amazon MQ (managed RabbitMQ).
+* **Search for:** `RabbitMQ publisher confirms`, `prefetch count tuning`, `quorum queue delivery-limit`, `pause_minority`, `RabbitMQ flow control blocked connection`, `classic queue v2`, `x-death header`, `federation vs shovel`, and the RabbitMQ team's blog posts on quorum queues and streams.
+* **Hands-on:** run a 3-node RabbitMQ cluster in Docker, drive it with the RabbitMQ PerfTest tool using slow consumers and a high prefetch until the memory alarm blocks publishers, then fix it with prefetch limits and queue length limits.

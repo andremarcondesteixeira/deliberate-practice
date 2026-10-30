@@ -17,3 +17,16 @@
 * **Domain Services vs Application Services:** Where does logic go when it spans aggregates: a domain service (pure domain logic) or an application service (orchestration, transactions, security)?
 * **Anemic Domain Model:** Why is an anemic model (data-only classes with logic in services) considered an anti-pattern, and when is it actually fine?
 * **Specification Pattern:** How does the specification pattern turn business rules into reusable, composable predicate objects, and how can specifications be translated into queries?
+
+## Study Guide
+
+* **Books:**
+  * *Domain-Driven Design: Tackling Complexity in the Heart of Software* (Eric Evans): the original source; the part on the building blocks (entities, value objects, aggregates, repositories, factories, services), the chapter on making implicit concepts explicit (specifications), and the part on strategic design (bounded contexts, context maps, anti-corruption layers).
+  * *Implementing Domain-Driven Design* (Vaughn Vernon): the chapters on context maps, aggregates, domain events, and application services, with concrete code for each tactical pattern.
+  * *Learning Domain-Driven Design* (Vlad Khononov): the most approachable modern overview; the chapters on subdomains, bounded contexts, and integrating bounded contexts cover the strategic half of this deck.
+  * *Domain-Driven Design Distilled* (Vaughn Vernon): a short refresher on strategic design, context mapping, and aggregate rules when you only need the essentials.
+* **Official docs:** Eric Evans's free *Domain-Driven Design Reference* (Domain Language), a pattern-by-pattern summary of the book; the DDD Crew's open-source Context Mapping and Bounded Context Canvas repositories on GitHub; Microsoft's free e-book *.NET Microservices: Architecture for Containerized .NET Applications*, whose DDD chapters show aggregates, domain events, and integration events in code.
+* **Papers:** "Effective Aggregate Design" (Vaughn Vernon's three-part essay), the standard reference for small aggregates and referencing other aggregates by ID.
+* **Related technologies:** Event Storming (Alberto Brandolini's workshop format for finding boundaries), Axon Framework and EventStoreDB (aggregates and events), jMolecules (DDD building blocks for Java), and the specification support in Spring Data JPA.
+* **Search for:** `bounded context vs subdomain`, `context mapping patterns`, `anti-corruption layer`, `domain events vs integration events`, `anemic domain model` (Martin Fowler's article), `specification pattern` (Evans & Fowler), `Event Storming`.
+* **Hands-on:** pick a domain you know (e.g., a shop), run a solo Event Storming session on paper, then draw the bounded contexts, a context map, and one aggregate with its invariants.

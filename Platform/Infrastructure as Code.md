@@ -24,3 +24,15 @@
 * **Lab — Golden Image Drift:**
   * *Setup:* An auto scaling group launches new instances that fail to boot because someone manually changed the base image out of band.
   * *Challenge:* Redesign the image pipeline: images built only by Packer in CI from versioned code, tested before promotion, immutable once published, with launch templates pointing at explicit versions.
+
+## Study Guide
+
+* **Books:**
+  * *Terraform: Up & Running* (Yevgeniy Brikman): the chapters on managing state, modules, production-grade code and working as a team, which cover the whole Terraform section.
+  * *Infrastructure as Code* (Kief Morris): the parts on core practices, stacks, server images and delivery pipelines, for declarative vs imperative, immutable servers, golden images and drift.
+  * *Ansible for DevOps* (Jeff Geerling): the early chapters on playbooks and the later ones on testing, for idempotency and where configuration management still fits.
+  * *Cloud FinOps* (J.R. Storment & Mike Fuller): the chapters on cost allocation, tagging and optimization, for the FinOps card.
+* **Official docs:** the Terraform docs on state, state locking, the S3 backend (`use_lockfile`), sensitive data in state, `import` blocks and module development; the OpenTofu docs (including state encryption); the AWS CloudFormation docs on drift detection; the Packer docs on templates and provisioners; the Ansible docs on check mode and diff mode; the OPA, Conftest and Checkov docs; the FinOps Foundation's FinOps Framework.
+* **Related technologies:** OpenTofu, Pulumi, AWS CDK, Crossplane, Terragrunt, Atlantis and Spacelift for pull-request-driven applies, Infracost, cloud-init, EC2 Image Builder, and Chef and Puppet as other configuration management tools.
+* **Search for:** `terraform state locking`, `terraform s3 use_lockfile`, `terraform import block`, `terraform workspaces vs separate state`, `phoenix server`, `snowflake server`, `bake vs fry ami`, `conftest terraform plan json`.
+* **Hands-on:** create a resource with Terraform, change it by hand in the console or CLI and read the plan that shows the drift; then create a second resource by hand and bring it under management with an `import` block without recreating it.

@@ -52,3 +52,15 @@
 * **Lab — GuardDuty Alert Fatigue:**
   * *Setup:* A security team running 200 accounts drowns in low-priority GuardDuty findings.
   * *Challenge:* Set up a delegated administrator, aggregate findings centrally (Security Hub), add suppression rules for known benign patterns, and route only high-severity findings to people.
+
+## Study Guide
+
+* **Books:**
+  * *AWS Security* (Dylan Shields): the chapters on IAM policies, multi-account management, data protection, logging and audit trails, and continuous monitoring and incident response map onto almost every section of this deck.
+  * *Practical Cloud Security* (Chris Dotson): the chapters on identity and access management, encryption and key management, and incident response, for the provider-neutral principles behind AWS's services.
+  * *Amazon Web Services in Action* (Andreas Wittig & Michael Wittig): the security chapter on IAM, security groups and VPCs, for a hands-on start.
+* **Official docs:** the IAM User Guide, especially "Policy evaluation logic" (including cross-account evaluation), the IAM JSON policy elements reference, permissions boundaries, the confused deputy problem, and passing roles to services; the AWS Organizations User Guide on SCPs and RCPs; the IAM Identity Center User Guide; the AWS KMS Developer Guide (key policies, rotation) and the "AWS Key Management Service Cryptographic Details" whitepaper; the GuardDuty, Security Hub, Config, CloudTrail and WAF guides; the "Organizing Your AWS Environment Using Multiple Accounts" whitepaper; and the Security pillar of the Well-Architected Framework. The re:Invent talks on becoming an IAM policy master are classics.
+* **Papers:** "Semantic-based Automated Reasoning for AWS Access Policies using SMT" (Backes et al., 2018), the Zelkova work behind IAM Access Analyzer.
+* **Related technologies:** compare Azure RBAC with Microsoft Entra ID and Azure Policy, Google Cloud IAM with Organization Policies, HashiCorp Vault (secrets), Open Policy Agent and Cedar (policy as code), and Okta or Entra ID as Identity Center's external identity provider.
+* **Search for:** `IAM policy evaluation logic`, `cross-account policy evaluation`, `confused deputy aws:SourceArn`, `iam:PassRole privilege escalation`, `permissions boundary delegation`, `SCP inheritance`, `ABAC aws:PrincipalTag`, `KMS key policy vs IAM policy`, Rhino Security Labs' research on AWS IAM privilege escalation, and the open-source tools Pacu and PMapper.
+* **Hands-on:** set up a cross-account role with a trust policy and `ExternalId` between two accounts in a free AWS Organization, then break each piece in turn (identity policy, trust policy, bucket policy, KMS key policy) and read the resulting `AccessDenied` messages and CloudTrail events.

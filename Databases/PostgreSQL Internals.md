@@ -23,3 +23,14 @@
 
 * **Lock Contention Diagnosis:** How do you use `pg_locks`, `pg_stat_activity`, and `pg_blocking_pids()` to find who is blocking whom? How do `lock_timeout` and `idle_in_transaction_session_timeout` limit the damage?
 * **Point-In-Time Recovery:** How do a base backup plus continuously archived WAL let you restore to an exact timestamp or LSN? How do you prove that backups actually restore?
+
+## Study Guide
+
+* **Books:**
+  * *PostgreSQL 14 Internals* (Egor Rogov, free from Postgres Professional): the parts on MVCC and vacuum (including freezing), the buffer cache and WAL, locks, and index types (GiST, GIN, BRIN) cover nearly every card here.
+  * *The Internals of PostgreSQL* (Hironobu Suzuki, free online): the chapters on concurrency control, VACUUM processing, HOT and index-only scans, the buffer manager, and base backup and point-in-time recovery, with clear diagrams.
+* **Official docs:** the PostgreSQL manual's "Routine Database Maintenance Tasks" chapter (routine vacuuming, preventing transaction ID wraparound failures, the autovacuum daemon); "Database Physical Storage" (free space map, visibility map, page layout); the GiST, GIN and BRIN index chapters in the Internals part; "Resource Consumption" under "Server Configuration"; "Continuous Archiving and Point-in-Time Recovery (PITR)" under "Backup and Restore"; and the `pg_locks` and `pg_stat_activity` views. The PgBouncer docs list which features break in transaction pooling mode.
+* **Papers:** "The Design of the POSTGRES Storage System" (Michael Stonebraker, 1987), the no-overwrite storage design that dead tuples and vacuum come from.
+* **Related technologies:** compare MySQL/InnoDB (undo logs instead of dead tuples, thread-per-connection) and Oracle (undo segments); pgBackRest, Barman and WAL-G for PITR; PgBouncer and RDS Proxy for pooling; and the `pgstattuple`, `pg_visibility`, `pageinspect` and `pg_repack` extensions for inspecting and fixing bloat.
+* **Search for:** `transaction ID wraparound`, `autovacuum_freeze_max_age`, `xmin horizon`, `HOT updates fillfactor`, `GIN fastupdate pending list`, `BRIN pages_per_range correlation`, `PgBouncer transaction pooling prepared statements`, `pg_blocking_pids`, `recovery_target_time`.
+* **Hands-on:** create a table, update every row a few times and watch `n_dead_tup` in `pg_stat_user_tables` and the tuple headers with `pageinspect`; then hold a transaction open in another session and confirm `VACUUM VERBOSE` can't remove the dead tuples.

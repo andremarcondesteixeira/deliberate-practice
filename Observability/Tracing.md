@@ -15,3 +15,16 @@
 * **Lab — Negative Span Durations:**
   * *Setup:* Traces show child spans starting before their parents and negative durations, and logs from different services appear out of order. Node clocks have drifted by 800ms.
   * *Challenge:* Explain why cross-host timestamps can't be trusted for ordering, fix time sync (chrony/NTP) on the hosts, and describe how tracing backends adjust for clock skew.
+
+## Study Guide
+
+* **Books:**
+  * *Mastering Distributed Tracing* (Yuri Shkuro): the creator of Jaeger on trace anatomy, instrumentation, context propagation, and sampling strategies.
+  * *Distributed Tracing in Practice* (Austin Parker, Daniel Spoonhower, Jonathan Mace, Ben Sigelman & Rebecca Isaacs): the chapters on instrumentation, sampling, and turning traces into insight.
+  * *Learning OpenTelemetry* (Ted Young & Austin Parker): the chapters on the OpenTelemetry architecture, instrumenting libraries and applications, and running Collector pipelines.
+  * *Cloud Native Observability with OpenTelemetry* (Alex Boten): the hands-on chapters on tracing with the SDK, propagators, and the Collector.
+* **Official docs:** the W3C Trace Context Recommendation (`traceparent`, `tracestate`) and the W3C Baggage specification; the OpenTelemetry specification (Trace API, context propagation, Baggage, span links) and its semantic conventions for messaging and FaaS; the OpenTelemetry Collector documentation and the `tailsamplingprocessor` and `loadbalancingexporter` READMEs in the collector-contrib repository; the OpenTelemetry Java agent documentation; the AWS Distro for OpenTelemetry documentation for Lambda.
+* **Papers:** "Dapper, a Large-Scale Distributed Systems Tracing Infrastructure" (Sigelman et al., 2010); "Time, Clocks, and the Ordering of Events in a Distributed System" (Leslie Lamport, 1978), for why wall-clock timestamps can't order events across hosts.
+* **Related technologies:** compare Jaeger, Zipkin, Grafana Tempo, and AWS X-Ray (backends), the OpenTelemetry Collector (pipelines and tail sampling), chrony and NTP (clock sync), and the Java agent vs language SDKs (auto vs manual instrumentation).
+* **Search for:** `W3C traceparent header`, `OpenTelemetry context propagation async`, `span links vs parent child`, `tail sampling OpenTelemetry Collector`, `head vs tail sampling`, `Kafka trace context headers`, `OpenTelemetry baggage security`, `tracing clock skew adjustment`.
+* **Hands-on:** run two small services, Kafka, the OpenTelemetry Collector, and Jaeger with Docker Compose, trace a request across HTTP and Kafka, then switch the Collector to tail sampling and confirm every error trace is kept.

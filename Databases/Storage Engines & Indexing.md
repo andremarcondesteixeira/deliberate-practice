@@ -30,3 +30,16 @@
 * **Hash Indexes:** Why are hash indexes rare in relational databases despite $O(1)$ lookups (no range scans, no ordering, historical crash-safety issues)?
 * **Partial & Expression Indexes:** How do partial indexes (`WHERE` clause) and expression indexes (`lower(email)`) save space and make otherwise unindexable predicates fast?
 * **Index Bloat & Write Cost:** What causes index bloat and fragmentation under random updates and deletes, and how do `REINDEX CONCURRENTLY` or `OPTIMIZE TABLE` fix it? Why is every unused secondary index a tax on write throughput?
+
+## Study Guide
+
+* **Books:**
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Storage and Retrieval chapter covers hash indexes, SSTables, LSM-trees, B-trees, their trade-offs, column storage and in-memory databases; it is the backbone of this deck.
+  * *Database Internals* (Alex Petrov): the storage engines part goes deeper on file formats and slotted pages, B-tree implementation and page splits, buffer management, WAL and recovery, and LSM compaction and Bloom filters.
+  * *SQL Performance Explained* (Markus Winand, also free online as *Use The Index, Luke*): the chapters on index anatomy, the WHERE clause and clustering data, for composite index column order, partial and function-based indexes, and index-only scans.
+  * *High Performance MySQL* (Silvia Botros & Jeremy Tinley): the chapters on indexing for high performance and on InnoDB, for clustered indexes, primary key choice and the buffer pool.
+* **Official docs:** the PostgreSQL manual's "Indexes" chapter (multicolumn, partial and expression indexes, index-only scans and covering indexes) and "Database Page Layout" under "Database Physical Storage"; the MySQL Reference Manual's InnoDB chapter ("Clustered and Secondary Indexes", "Buffer Pool"); and the RocksDB wiki on compaction, Bloom filters and tuning.
+* **Papers:** "The Log-Structured Merge-Tree (LSM-Tree)" (O'Neil et al., 1996); "ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking and Partial Rollbacks Using Write-Ahead Logging" (Mohan et al., 1992); "Bitcask: A Log-Structured Hash Table for Fast Key/Value Data" (Sheehy & Smith, 2010); "C-Store: A Column-oriented DBMS" (Stonebraker et al., 2005); "OLTP Through the Looking Glass, and What We Found There" (Harizopoulos et al., 2008).
+* **Related technologies:** RocksDB, LevelDB and Cassandra (LSM); InnoDB, PostgreSQL and WiredTiger (B-tree); ClickHouse, DuckDB and Parquet (columnar); Redis and VoltDB (in-memory); and SQLite as a small, readable B-tree engine.
+* **Search for:** `read write space amplification`, `RUM conjecture`, `size-tiered vs leveled compaction`, `Bloom filter bits per key false positive rate`, `slotted page layout`, `B+tree page split`, `ARIES redo undo`, `InnoDB midpoint insertion`, `O_DIRECT double buffering`, `leftmost prefix rule`, `vectorized execution`, and the CMU Intro to Database Systems lectures (Andy Pavlo), free on YouTube, which cover nearly every card here.
+* **Hands-on:** build a toy Bitcask (an append-only file plus an in-memory hash map, then compaction), then grow it into a tiny LSM with a sorted memtable and SSTable flushes.

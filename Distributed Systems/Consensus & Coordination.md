@@ -40,3 +40,15 @@
 * **Lab — Cascading GC Pauses:**
   * *Setup:* Node A stalls in a 30-second GC pause, heartbeats fail, and the cluster rebalances. As A recovers, the extra load pushes Node B into its own pause.
   * *Challenge:* Break the cascade with adaptive failure-detector thresholds, rebalancing delays, and JVM/GC tuning.
+
+## Study Guide
+
+* **Books:**
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Trouble with Distributed Systems chapter (unreliable networks, process pauses, fencing tokens, Byzantine faults) and the Consistency and Consensus chapter (total order broadcast, consensus, coordination services).
+  * *Database Internals* (Alex Petrov): the Distributed Systems part, especially the chapters on failure detection, leader election, anti-entropy and dissemination (gossip), and consensus (Paxos variants, Raft, PBFT).
+  * *Introduction to Reliable and Secure Distributed Programming* (Christian Cachin, Rachid Guerraoui & Luís Rodrigues): the formal treatment of fault models, failure detectors, total order broadcast and consensus, for when you want precise definitions of safety and liveness.
+* **Official docs:** the etcd documentation (Raft, learners, linearizable vs serializable reads), the ZooKeeper Programmer's Guide and its recipes (leader election, locks), and the Kafka documentation's KRaft section for a production Raft-based metadata quorum.
+* **Papers:** "Impossibility of Distributed Consensus with One Faulty Process" (Fischer, Lynch & Paterson, 1985); "Paxos Made Simple" (Lamport, 2001); "In Search of an Understandable Consensus Algorithm" (Ongaro & Ousterhout, 2014) and Ongaro's PhD dissertation "Consensus: Bridging Theory and Practice" (membership changes, Pre-Vote, ReadIndex); "Viewstamped Replication Revisited" (Liskov & Cowling, 2012); "ZooKeeper: Wait-free Coordination for Internet-scale Systems" (Hunt et al., 2010); "Practical Byzantine Fault Tolerance" (Castro & Liskov, 1999); "SWIM: Scalable Weakly-consistent Infection-style Process Group Membership Protocol" (Das, Gupta & Motivala, 2002); "The φ Accrual Failure Detector" (Hayashibara et al., 2004).
+* **Related technologies:** compare etcd and Consul (Raft), ZooKeeper (Zab), Kafka KRaft, CockroachDB/TiKV (Multi-Raft), Cassandra and Akka (phi accrual detectors, gossip), HashiCorp memberlist (SWIM), and Redis Redlock (a lock without fencing).
+* **Search for:** `Raft visualization`, `Raft Pre-Vote`, `ReadIndex lease read`, `joint consensus`, `fencing token`, `phi accrual failure detector`, `Jepsen` analyses of real consensus systems, and Kleppmann's article "How to do distributed locking" (the Redlock critique).
+* **Hands-on:** implement Raft in the MIT 6.824 (now 6.5840) Distributed Systems labs, or work through the Fly.io "Gossip Glomers" challenges on Jepsen's Maelstrom simulator, which injects partitions for you.

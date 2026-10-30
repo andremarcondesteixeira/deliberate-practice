@@ -54,3 +54,15 @@
 * **Lab — Transaction Write Conflicts:**
   * *Setup:* During a flash sale, multi-document transactions updating inventory abort with `WriteConflict` errors and time out.
   * *Challenge:* Reduce contention by shrinking transactions, avoiding hot documents (bucketed counters), retrying `TransientTransactionError` correctly, and questioning whether a transaction is needed at all.
+
+## Study Guide
+
+* **Books:**
+  * *MongoDB: The Definitive Guide* (Shannon Bradshaw, Eoin Brazil & Kristina Chodorow): the parts on indexing, aggregation, transactions, schema design, replication and sharding map almost one-to-one onto this deck's sections.
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Replication chapter (failover, replication lag, read-your-writes) and the Partitioning chapter (called Sharding in the second edition; key-range vs hash partitioning, hot spots, rebalancing), for the general theory behind replica sets and shard keys.
+  * *Practical MongoDB Aggregations* (Paul Done, free online edition from the author): pipeline design, performance tips and worked examples for the aggregation section.
+* **Official docs:** the MongoDB Manual's "Data Modeling", "Indexes", "Replication", "Sharding", "Aggregation", "Transactions" and "Change Streams" sections; the WiredTiger and journaling pages in the Storage section; the "Explain Results" and "Database Profiler" pages; the Production Notes; and the Security section. MongoDB University's free courses cover the same ground with labs.
+* **Papers:** "Tunable Consistency in MongoDB" (William Schultz, Tess Avitabile & Alyson Cabral, 2019), on write concerns, read concerns and rollback; "In Search of an Understandable Consensus Algorithm" (Diego Ongaro & John Ousterhout, 2014), the Raft paper that MongoDB's election protocol builds on.
+* **Related technologies:** compare WiredTiger with InnoDB (both B-tree engines with MVCC), replica sets with PostgreSQL streaming replication, MongoDB sharding with Citus or Vitess, change streams with Debezium-based CDC, and Amazon DocumentDB or Cosmos DB, which implement the MongoDB API but not its engine.
+* **Search for:** `MongoDB ESR rule`, `WiredTiger cache eviction application threads`, `write concern majority rollback`, `causally consistent sessions`, `shard key cardinality frequency monotonicity`, `jumbo chunks`, `TransientTransactionError retry`, and MongoDB's "Building with Patterns" series for the bucket, subset and outlier schema patterns.
+* **Hands-on:** start a three-member replica set locally (Docker or `mlaunch`), kill the primary during a stream of `w: 1` writes and find the rolled-back documents; then shard a collection on `_id` and watch every insert land on one shard.

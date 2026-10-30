@@ -22,3 +22,15 @@
 * **Lab — Clock Drift Data Loss:**
   * *Setup:* A multi-leader key-value store resolves conflicts with Last-Write-Wins on wall-clock timestamps. NTP fails on Node 1, which drifts 5 seconds ahead.
   * *Challenge:* Explain why Node 1 now silently overwrites newer writes from other nodes, why the loss is invisible to clients, and design a clock-independent alternative (version vectors with sibling resolution, or CRDTs).
+
+## Study Guide
+
+* **Books:**
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Trouble with Distributed Systems chapter's section on unreliable clocks (drift, monotonic clocks, LWW, TrueTime) and the Consistency and Consensus chapter's section on ordering guarantees (Lamport timestamps, total order broadcast).
+  * *Distributed Systems* (Maarten van Steen & Andrew S. Tanenbaum, free from the authors): the Coordination chapter, for clock synchronization, Lamport clocks and vector clocks.
+  * *Patterns of Distributed Systems* (Unmesh Joshi): the Lamport Clock, Hybrid Clock, Clock-Bound Wait and Version Vector patterns, each tied to how real databases implement them.
+* **Official docs:** the chrony documentation (slewing vs stepping, `chronyc tracking`), the Linux `clock_gettime(2)` man page (`CLOCK_REALTIME` vs `CLOCK_MONOTONIC`), the Google Cloud Spanner docs on TrueTime and external consistency, and the CockroachDB docs on the transaction layer and the maximum clock offset setting.
+* **Papers:** "Time, Clocks, and the Ordering of Events in a Distributed System" (Lamport, 1978); "Virtual Time and Global States of Distributed Systems" (Mattern, 1989); "Spanner: Google's Globally-Distributed Database" (Corbett et al., 2012); "Logical Physical Clocks and Consistent Snapshots in Globally Distributed Databases" (Kulkarni et al., 2014, the HLC paper).
+* **Related technologies:** compare Spanner (TrueTime), CockroachDB and YugabyteDB (HLCs), Riak (version vectors and siblings), Cassandra (LWW on client timestamps), EventStoreDB (per-stream sequence numbers), and AWS ClockBound (bounded clock error on EC2).
+* **Search for:** `happens-before relation`, `vector clock vs version vector`, `hybrid logical clock`, `commit wait`, `leap second smearing`, `monotonic clock`, `last write wins clock skew`, and Kleppmann's Cambridge "Distributed Systems" lecture series, which covers this deck's logical-time material.
+* **Hands-on:** simulate three processes exchanging messages in a short script, attach Lamport timestamps and vector clocks to every event, and check which pairs each scheme can identify as concurrent; then add a node whose wall clock runs five seconds ahead and watch LWW drop writes.

@@ -14,7 +14,9 @@ Every card comes up once per cycle (90 days by default), in random order across 
 
 The cycle is a goal, not a deadline. If you take a break, nothing resets: your progress is kept and the daily target rises to cover the cards left in the days left. After day 90 the line shows how far past the goal you are instead (`· 12 day(s) past the 90-day goal`), and the cycle stays open until you finish it. The next cycle starts on the day you mark the last card. To start over with a fresh 90 days after a long break, reset your progress (see below).
 
-After each card you're asked `Mark this card as done? [y/N, q to quit]`. Only `y` counts the card as seen for the cycle; pressing Enter skips it and it stays in the pool for later, and `q` stops a multi-card session. If the script runs without an interactive terminal, nothing is marked.
+After each card you're asked `Mark this card as done? [y/N, s = study guide, q = quit]`. Only `y` counts the card as seen for the cycle; pressing Enter skips it and it stays in the pool for later, and `q` stops a multi-card session. If the script runs without an interactive terminal, nothing is marked.
+
+If you're not up to a challenge, press `s` to show the deck's study guide: the books (and which chapters) to read, official docs and where to look in them, classic papers, related technologies to compare, terms to search for, and a hands-on exercise. Then answer the prompt as usual. Study guides deliberately avoid article links, which tend to die; they point to books, official documentation and search terms that stay findable.
 
 Opening a terminal shows one card. To catch up, or to do a focused session, ask for more:
 
@@ -182,7 +184,20 @@ If you use PowerShell on Windows, you can invoke the script using the built-in `
      * *Setup:* A client service starts failing with `EADDRNOTAVAIL`.
      * *Challenge:* Explain why, and fix it.
    ```
-4. Keep the deck reviewable: every ~90 new cards adds one card per day to the cycle. Prefer cards that test reasoning and trade-offs over trivia you'd look up anyway.
-5. Commit and push your changes to GitHub to sync your practice deck across all your machines!
+4. **Every deck must end with a `## Study Guide` section.** Its bullets are not cards; they're shown when you press `s`. When you add a deck, or cards that the guide doesn't cover yet, update it using the same fields as the other decks:
+   ```markdown
+   ## Study Guide
+
+   * **Books:**
+     * *Book Title* (Author): the chapter on X, named by topic rather than number so it survives new editions.
+   * **Official docs:** which manual, specification or RFC to read, and which section.
+   * **Papers:** classic papers by title and authors (omit if none apply).
+   * **Related technologies:** tools that solve the same problem differently, worth comparing.
+   * **Search for:** `exact terms`, `to search for`.
+   * **Hands-on:** one exercise that makes the concepts concrete.
+   ```
+   Don't use article URLs; they die. Point to books, official docs and search terms instead.
+5. Keep the deck reviewable: every ~90 new cards adds one card per day to the cycle. Prefer cards that test reasoning and trade-offs over trivia you'd look up anyway.
+6. Commit and push your changes to GitHub to sync your practice deck across all your machines!
 
 A card is identified by its first line, so editing that line makes it count as a new, unseen card in the current cycle.

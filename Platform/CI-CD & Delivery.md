@@ -25,3 +25,15 @@
 * **Lab — GitOps Overwrites the Hotfix:**
   * *Setup:* An engineer hotfixes a crashing deployment with `kubectl edit`. Ten minutes later, the GitOps controller syncs and puts the broken manifest back.
   * *Challenge:* Explain drift detection and self-healing, why the controller did the right thing, and the correct incident workflow (revert or fix in Git, or explicitly pause sync and record it).
+
+## Study Guide
+
+* **Books:**
+  * *Continuous Delivery* (Jez Humble & David Farley): the chapters on the deployment pipeline, version control and continuous integration, for pipeline stages, ordering for fast feedback, and building once and promoting the same artifact.
+  * *Accelerate* (Nicole Forsgren, Jez Humble & Gene Kim): the chapters on measuring software delivery performance, for the four DORA metrics and the research showing why they belong together.
+  * *Software Engineering at Google* (Titus Winters, Tom Manshreck & Hyrum Wright): the chapters on continuous integration, continuous delivery and testing, for flaky tests, presubmit gates and trunk-based development at scale.
+  * *GitOps and Kubernetes* (Billy Yuen, Alexander Matyushentsev, Todd Ekenstam & Jesse Suen): the chapters on Argo CD and on deployment strategies, for reconciliation, drift detection, and blue-green and canary rollouts.
+* **Official docs:** the Argo CD docs on automated sync and self-heal, the Argo Rollouts docs on canary steps and analysis (Flagger's docs cover the same ideas), the OpenGitOps principles (CNCF), your CI system's docs on caching and security hardening (for GitHub Actions: "Security hardening for GitHub Actions", the `pull_request_target` warnings, and "Validating webhook deliveries"), the Semantic Versioning and Conventional Commits specifications, and the annual DORA *State of DevOps* reports.
+* **Related technologies:** GitHub Actions, GitLab CI, Jenkins and Buildkite for pipelines; Bazel for hermetic, cached builds; merge queues in GitHub and GitLab; LaunchDarkly, Unleash and the OpenFeature standard for flags; semantic-release and Release Please for automated versioning; Argo CD vs Flux for GitOps.
+* **Search for:** `trunk based development` (Paul Hammant's site of that name), `feature toggles Pete Hodgson`, `build once deploy many`, `pwn request pull_request_target`, `flaky test quarantine`, `cache key lockfile hash`, `expand and contract migration` (for blue-green with a shared database), `Argo CD self-heal drift`.
+* **Hands-on:** manage a small app in a `kind` cluster with Argo CD and self-heal enabled, `kubectl edit` the deployment and watch the controller revert it; then add an Argo Rollouts canary whose analysis step fails and rolls back on its own.

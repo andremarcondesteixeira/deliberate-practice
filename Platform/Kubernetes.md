@@ -77,3 +77,16 @@
 * **Lab — 5-Second DNS Delays:**
   * *Setup:* Pods see intermittent 5-second delays resolving external hostnames.
   * *Challenge:* Explain how `ndots:5` makes every external name try the cluster search domains first, how the conntrack race between parallel A/AAAA UDP queries drops packets, and fix it with FQDNs (trailing dot), a lower `ndots`, NodeLocal DNSCache, and CoreDNS scaling.
+
+## Study Guide
+
+* **Books:**
+  * *Kubernetes in Action* (Marko Lukša): the chapter on Kubernetes internals plus the chapters on pods, Services, volumes, Deployments and StatefulSets, for how controllers, the scheduler and the kubelet cooperate through the API server.
+  * *Production Kubernetes* (Josh Rosso, Rich Lander, Alex Brand & John Harris): the chapters on pod networking, service routing, storage, admission control, identity and multitenancy, for the trade-offs behind each platform choice.
+  * *Programming Kubernetes* (Michael Hausenblas & Stefan Schimanski): the chapters on controllers and operators, custom resources and custom API servers, for the CRD, operator and aggregated API cards.
+  * *Hacking Kubernetes* (Andrew Martin & Michael Hausenblas): the chapters on pods, container isolation and policy, for RBAC escalation, Pod Security and container breakout.
+* **Official docs:** the Kubernetes docs, especially "Cluster Architecture", "Pod Lifecycle", "Configure Liveness, Readiness and Startup Probes", "Taints and Tolerations", "Garbage Collection", "Using RBAC Authorization", "Pod Security Standards", "Encrypting Confidential Data at Rest", "Auditing" and "Debugging DNS Resolution"; the etcd docs on operating clusters and disaster recovery; the Gateway API docs; and Kubernetes Enhancement Proposals (KEPs) for the reasoning behind features such as native sidecars.
+* **Papers:** "Large-scale cluster management at Google with Borg" (Verma et al., 2015); "Borg, Omega, and Kubernetes" (Burns et al., 2016); "In Search of an Understandable Consensus Algorithm" (Ongaro & Ousterhout, 2014), the Raft paper behind etcd.
+* **Related technologies:** kind, k3s and minikube for local clusters; Cilium, Calico and Flannel for CNI; Istio and Linkerd for service mesh; Kyverno and OPA Gatekeeper for policy; Karpenter and KEDA for scaling; Helm and Kustomize; OpenShift and managed EKS, GKE and AKS for how vendors package all of this.
+* **Search for:** `Kubernetes The Hard Way` (Kelsey Hightower), `level triggered reconciliation`, `preStop sleep 502`, `kube-proxy iptables vs ipvs vs nftables`, `CPU limits CFS throttling`, `ndots 5 conntrack race`, `etcdctl snapshot restore`, `namespace stuck terminating finalizers`.
+* **Hands-on:** work through *Kubernetes The Hard Way* on local VMs, then break that cluster on purpose to reproduce the labs: set a memory limit too low to get exit code 137, leave a namespace stuck on a finalizer, and restore etcd from a snapshot.

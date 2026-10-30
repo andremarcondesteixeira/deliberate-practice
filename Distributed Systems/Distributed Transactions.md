@@ -17,3 +17,16 @@
 * **Choreography vs Orchestration:** Contrast event-driven choreography with a central orchestrator for coordinating saga steps. How do visibility, coupling, and failure handling differ?
 * **Compensations & Their Failures:** How do compensating transactions semantically undo completed steps? What happens when a compensation fails midway, and what are pivot transactions, retriable steps, and countermeasures such as semantic locks?
 * **Try-Confirm-Cancel:** How does TCC reserve resources at the application layer (try), then confirm or cancel them, without holding database locks? How does it differ from a saga?
+
+## Study Guide
+
+* **Books:**
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Consistency and Consensus chapter's section on distributed transactions (2PC, in-doubt transactions, XA) and the Future of Data Systems chapter on designing around them.
+  * *Database Internals* (Alex Petrov): the Distributed Transactions chapter (2PC, 3PC, Calvin, Spanner, Percolator-style snapshot isolation, coordination avoidance).
+  * *Microservices Patterns* (Chris Richardson): the chapter on managing transactions with sagas (choreography vs orchestration, compensations, pivot transactions, countermeasures such as semantic locks).
+  * *Principles of Transaction Processing* (Philip A. Bernstein & Eric Newcomer): the two-phase commit and transactional middleware material, for the classic view of XA and recovery.
+* **Official docs:** The Open Group's "Distributed Transaction Processing: The XA Specification"; the PostgreSQL manual's `PREPARE TRANSACTION` page and `pg_prepared_xacts` view; the CockroachDB architecture docs' "Transaction Layer" page; and the Google Cloud Spanner docs on TrueTime and external consistency.
+* **Papers:** "Sagas" (Garcia-Molina & Salem, 1987); "Life beyond Distributed Transactions: an Apostate's Opinion" (Pat Helland, 2007); "Consensus on Transaction Commit" (Gray & Lamport, 2006); "Large-scale Incremental Processing Using Distributed Transactions and Notifications" (Peng & Dabek, 2010, the Percolator paper); "Spanner: Google's Globally-Distributed Database" (Corbett et al., 2012); "Calvin: Fast Distributed Transactions for Partitioned Database Systems" (Thomson et al., 2012).
+* **Related technologies:** compare Spanner (TrueTime), CockroachDB and YugabyteDB (HLCs), TiDB (Percolator with a timestamp oracle), Narayana or Atomikos (XA transaction managers), and Temporal or AWS Step Functions (saga orchestration).
+* **Search for:** `two-phase commit blocking`, `in-doubt transaction`, `XA heuristic outcome`, `saga orchestration vs choreography`, `compensating transaction`, `try-confirm-cancel`, `timestamp oracle`, and `distributed deadlock detection`.
+* **Hands-on:** create two PostgreSQL databases with `max_prepared_transactions` above zero, run `PREPARE TRANSACTION` on both by hand, "crash" before committing, and inspect the locks the in-doubt transactions still hold.

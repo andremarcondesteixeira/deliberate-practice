@@ -25,3 +25,15 @@
 * **Virtual Threads & Resource Limits:** Why can switching to virtual threads overwhelm databases and downstream services, and why limit concurrency with semaphores or connection pools instead of thread pool sizes?
 * **Structured Concurrency:** How does `StructuredTaskScope` treat related subtasks as one unit for cancellation and error handling? How did the API change from Java 21 (`ShutdownOnFailure`/`ShutdownOnSuccess`) to the Java 25 preview (`StructuredTaskScope.open()` with `Joiner`s)?
 * **Scoped Values:** How do `ScopedValue`s (final in Java 25) share immutable context with a bounded lifetime, and why are they a better fit than `ThreadLocal` for virtual threads and request context?
+
+## Study Guide
+
+* **Books:**
+  * *Java Concurrency in Practice* (Brian Goetz et al.): still the best foundation for this deck. Read the chapters on the Java Memory Model, building blocks (synchronizers), task execution and thread pools, explicit locks, and atomic variables and nonblocking synchronization.
+  * *The Art of Multiprocessor Programming* (Maurice Herlihy & Nir Shavit): the chapters on consensus, spin locks and concurrent queues (where the ABA problem is explained), for the theory behind CAS and lock-free algorithms.
+  * *Modern Java in Action* (Raoul-Gabriel Urma, Mario Fusco & Alan Mycroft): the chapters on parallel data processing (fork/join, work stealing) and on `CompletableFuture`, for composing async pipelines.
+* **Official docs:** the Java Language Specification chapter "Threads and Locks" (the memory model section); the "Memory Consistency Properties" section of the `java.util.concurrent` package summary in the JDK API docs, which lists the happens-before edges; the "Virtual Threads" chapter of Oracle's Core Libraries guide; and JEP 444 (Virtual Threads), JEP 491 (Synchronize Virtual Threads without Pinning), JEP 505 (Structured Concurrency, fifth preview in Java 25) and JEP 506 (Scoped Values).
+* **Papers:** "The Java Memory Model" (Manson, Pugh & Adve, 2005); "A Java Fork/Join Framework" (Doug Lea, 2000); and Doug Lea's "The JSR-133 Cookbook for Compiler Writers", for how memory barriers implement happens-before.
+* **Related technologies:** compare Kotlin coroutines and Go goroutines (the same many-to-few scheduling idea as virtual threads), Project Reactor and RxJava (the async style virtual threads aim to replace for I/O-bound code), Akka actors, and the C++ memory model (`std::atomic` memory orders).
+* **Search for:** `happens-before`, `safe publication`, `double-checked locking volatile`, `ABA problem`, `LongAdder vs AtomicLong`, `ThreadPoolExecutor rejection policy`, `virtual thread pinning`, `jdk.VirtualThreadPinned`, and Aleksey Shipilëv's "Java Memory Model Pragmatics" talk.
+* **Hands-on:** use OpenJDK's jcstress harness to write tests that show a non-`volatile` stop flag and an unsynchronized `count++` misbehaving, then fix each one and rerun.

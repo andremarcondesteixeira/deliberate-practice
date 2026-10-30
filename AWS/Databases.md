@@ -27,3 +27,16 @@
 * **Lab — Slow Redshift Queries:**
   * *Setup:* Redshift reporting queries run for hours and occupy every query slot.
   * *Challenge:* Explain columnar storage and MPP, then diagnose distribution styles (`KEY`, `ALL`, `EVEN`, `AUTO`) that force data redistribution, sort keys that don't match filters, missing `VACUUM`/`ANALYZE`, and workload management queue settings.
+
+## Study Guide
+
+* **Books:**
+  * *The DynamoDB Book* (Alex DeBrie): the chapters on primary keys, secondary indexes, condition expressions, transactions and single-table design are the best source for the DynamoDB section.
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Replication and Partitioning chapters, for synchronous vs asynchronous replicas, failover, quorums and hot spots behind Multi-AZ, Aurora and DynamoDB.
+  * *Amazon Redshift: The Definitive Guide* (Rajesh Francis, Rajiv Gupta & Milind Oke): the parts on table design (distribution and sort keys), workload management and performance tuning, for the Redshift lab.
+  * *Amazon Web Services in Action* (Andreas Wittig & Michael Wittig): the chapters on RDS, ElastiCache and DynamoDB, for setting each engine up by hand.
+* **Official docs:** the Amazon RDS User Guide (Multi-AZ deployments, read replicas, backups and restore, RDS Proxy, IAM database authentication), the Amazon Aurora User Guide (storage and reliability, Serverless v2, Global Database), the DynamoDB Developer Guide's best practices section (partition key design, write sharding, capacity modes, Streams, TTL, DAX), the ElastiCache User Guide's engine comparison, the AWS DMS User Guide, and the Amazon Redshift Database Developer Guide (designing tables, workload management, `VACUUM`/`ANALYZE`). The re:Invent talks on advanced DynamoDB data modeling (Rick Houlihan, Alex DeBrie) are worth watching.
+* **Papers:** "Amazon Aurora: Design Considerations for High Throughput Cloud-Native Relational Databases" (Verbitski et al., 2017); "Amazon DynamoDB: A Scalable, Predictably Performant, and Fully Managed NoSQL Database Service" (Elhemali et al., 2022); "Dynamo: Amazon's Highly Available Key-value Store" (DeCandia et al., 2007), which inspired DynamoDB but describes a different system.
+* **Related technologies:** compare Azure SQL Database and Google Cloud SQL/AlloyDB (RDS and Aurora), Azure Cosmos DB, Google Bigtable and Apache Cassandra (DynamoDB), PgBouncer (RDS Proxy), Debezium (CDC like DMS), and Snowflake or BigQuery (Redshift).
+* **Search for:** `Multi-AZ failover DNS`, `Aurora quorum 4/6`, `RDS Proxy connection pinning`, `DynamoDB GSI overloading`, `DynamoDB write sharding`, `DynamoDB optimistic locking condition expression`, `DynamoDB adaptive capacity`, `Redshift distribution style`, `Redshift WLM queues`.
+* **Hands-on:** create a provisioned DynamoDB table with low capacity in the free tier, hammer one partition key with a script, then repeat with sharded key suffixes and compare the throttling metrics (enable CloudWatch Contributor Insights to see the hot keys).

@@ -26,3 +26,15 @@
 
 * **Control Tower & Landing Zones:** How does Control Tower set up a multi-account landing zone with controls (preventive SCPs, detective Config rules) and account vending?
 * **Cost Management:** How do Cost Explorer, cost allocation tags, AWS Budgets, and Cost Anomaly Detection give visibility and early warning on spend? What does Trusted Advisor add?
+
+## Study Guide
+
+* **Books:**
+  * *Infrastructure as Code* (Kief Morris): the parts on stacks, making changes safely, testing infrastructure and configuration drift, the tool-neutral ideas behind CloudFormation and CDK.
+  * *Amazon Web Services in Action* (Andreas Wittig & Michael Wittig): the chapters on automating infrastructure with CloudFormation and monitoring with CloudWatch.
+  * *Site Reliability Engineering* (Betsy Beyer, Chris Jones, Jennifer Petoff & Niall Richard Murphy, eds.): the chapter on monitoring distributed systems, for what to measure and when to alert.
+  * *Cloud FinOps* (J.R. Storment & Mike Fuller): the parts on cost allocation, tagging, budgets and anomaly detection.
+* **Official docs:** the Amazon CloudWatch User Guide (metrics, alarms, composite alarms, embedded metric format) and CloudWatch Logs User Guide (metric filters, Logs Insights query syntax), the AWS Systems Manager User Guide (Session Manager setup and troubleshooting, VPC endpoints for Systems Manager), the AWS CloudFormation User Guide (change sets, update behaviors of stack resources, `DeletionPolicy`, custom resources, StackSets, drift detection), the AWS CDK Developer Guide (constructs, bootstrapping), the AWS Control Tower User Guide, the AWS Cost Management docs, and the Operational Excellence and Cost Optimization pillars of the Well-Architected Framework.
+* **Related technologies:** compare Terraform/OpenTofu and Pulumi (CloudFormation and CDK), Azure Bicep and Azure Policy, Azure Monitor and Google Cloud Monitoring, Prometheus and Grafana (CloudWatch), and Ansible (fleet management like Systems Manager).
+* **Search for:** `CloudFormation update requires replacement`, `CloudFormation custom resource timeout`, `cdk bootstrap`, `CloudFormation drift detection`, `Session Manager TargetNotConnected`, `CloudWatch embedded metric format`, `CloudWatch composite alarms`, `Logs Insights stats`, `Control Tower Account Factory`, `cost allocation tags`.
+* **Hands-on:** deploy a small CloudFormation stack (a security group and an S3 bucket with `DeletionPolicy: Retain`), change a rule in the console, run drift detection, then preview a property change with a change set and see which changes show `Replacement: True`.

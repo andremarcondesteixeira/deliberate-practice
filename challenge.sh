@@ -48,15 +48,17 @@ touch "$SEEN_FILE"
 # A new card starts ONLY if a line starts with a bullet AND has NO leading
 # spaces (top-level only). Indented sub-bullets are grouped into the card.
 # A card's ID is its first line, so editing that line makes it a new card.
+# A deck's "## Study Guide" section holds study material, not cards.
 #
 # Output: first line "<total cards>\t<unseen cards>", then one line per picked
-# card: "<id>\t<topic>\t<section>\t<body>", with newlines in body as \037.
+# card: "<id>\t<topic>\t<section>\t<body>\t<study guide>", with newlines in
+# body and study guide as \037.
 read -r -d '' PICKER <<'AWK'
 function flush() {
     if (item == "") return
     sub(/[ \t\n]+$/, "", item)
     n++
-    id[n] = first; topic[n] = cur_topic; sect[n] = section; body[n] = item
+    id[n] = first; topic[n] = cur_topic; sect[n] = section; body[n] = item; deck[n] = FILENAME
     if (!(first in seen)) unseen[++u] = n
     item = ""
 }
@@ -68,12 +70,18 @@ BEGIN {
 FNR == 1 {
     flush()
     section = "GENERAL"
+    in_guide = 0
     cur_topic = FILENAME
     sub(/\.md$/, "", cur_topic)
     gsub(/\//, " / ", cur_topic)
 }
 { sub(/\r$/, "") }
-/^##[ \t]+/ { flush(); section = $0; sub(/^##[ \t]+/, "", section); next }
+/^##[ \t]+/ {
+    flush(); section = $0; sub(/^##[ \t]+/, "", section)
+    in_guide = (section ~ /^Study Guide[ \t]*$/)
+    next
+}
+in_guide { guide[FILENAME] = guide[FILENAME] $0 "\n"; next }
 /^#/ { flush(); next }
 /^([*-]|[0-9]+\.)[ \t]+/ { flush(); item = $0; first = $0; sub(/[ \t]+$/, "", first); next }
 item != "" { item = item "\n" $0 }
@@ -85,7 +93,9 @@ END {
         t = unseen[i]; unseen[i] = unseen[j]; unseen[j] = t
         k = unseen[i]
         b = body[k]; gsub(/\n/, "\037", b)
-        printf "%s\t%s\t%s\t%s\n", id[k], toupper(topic[k]), sect[k], b
+        g = guide[deck[k]]; sub(/^[ \t\n]+/, "", g); sub(/[ \t\n]+$/, "", g)
+        gsub(/\t/, "    ", g); gsub(/\n/, "\037", g)
+        printf "%s\t%s\t%s\t%s\t%s\n", id[k], toupper(topic[k]), sect[k], b, g
     }
 }
 AWK
@@ -113,10 +123,20 @@ if [ "$unseen" -eq 0 ] && [ "$count" -gt 0 ]; then
     IFS=$'\t' read -r total unseen <<< "${output%%$'\n'*}"
 fi
 
+# Render Markdown using Glow if available, otherwise fall back to plain text
+render() {
+    if command -v glow &> /dev/null; then
+        printf '%s\n' "$1" | glow -
+    else
+        printf '%s\n' "$1"
+    fi
+}
+
 marked=0
-while IFS=$'\t' read -r id topic section body; do
+while IFS=$'\t' read -r id topic section body guide; do
     [ -n "$id" ] || continue
     body=${body//$'\037'/$'\n'}
+    guide=${guide//$'\037'/$'\n'}
 
     # Display clean terminal card using standard characters
     echo ""
@@ -128,18 +148,22 @@ while IFS=$'\t' read -r id topic section body; do
     echo "+---------------------------------------------------------+"
     echo ""
 
-    # Render using Glow if available, otherwise fall back to plain text
-    if command -v glow &> /dev/null; then
-        printf '%s\n' "$body" | glow -
-    else
-        printf '%s\n' "$body"
-    fi
+    render "$body"
 
     # Only count the card once you confirm you worked through it. Without a
     # terminal to ask on, leave it unseen so it comes back later.
     [ -t 3 ] || continue
-    echo ""
-    read -r -p "Mark this card as done? [y/N, q to quit] " answer <&3
+    while :; do
+        echo ""
+        read -r -p "Mark this card as done? [y/N, s = study guide, q = quit] " answer <&3
+        case "$answer" in [sS]*) ;; *) break ;; esac
+        echo ""
+        echo "+---------------------------------------------------------+"
+        echo "| STUDY GUIDE: $topic"
+        echo "+---------------------------------------------------------+"
+        echo ""
+        render "${guide:-No study guide for this deck yet. Add a \"## Study Guide\" section to it.}"
+    done
     case "$answer" in
         [yY]*) printf '%s\n' "$id" >> "$SEEN_FILE"; marked=$((marked + 1)) ;;
         [qQ]*) break ;;

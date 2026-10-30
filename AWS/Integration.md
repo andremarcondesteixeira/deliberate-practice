@@ -21,3 +21,14 @@
 * **Lab — Execution History Limits:**
   * *Setup:* A Standard workflow processing large batches fails with payload size and history limit errors.
   * *Challenge:* Explain the 256KB payload and 25,000-event history limits, then redesign: pass S3 references instead of payloads, use Distributed Map or child workflows, and trim state with `ResultSelector`/`OutputPath`.
+
+## Study Guide
+
+* **Books:**
+  * *Enterprise Integration Patterns* (Gregor Hohpe & Bobby Woolf): the chapters on messaging channels, routing and endpoints (publish-subscribe, dead letter channel, competing consumers, idempotent receiver, claim check, content-based router) give the vocabulary that SQS, SNS and EventBridge implement.
+  * *Serverless Architectures on AWS* (Peter Sbarski, Yan Cui & Ajay Nair, second edition): the parts on event-driven design with queues, topics, event buses and Step Functions.
+  * *Microservices Patterns* (Chris Richardson): the chapter on managing transactions with sagas, for compensations in a state machine.
+* **Official docs:** the Amazon SQS Developer Guide (standard vs FIFO, visibility timeout, long polling, dead-letter queues and redrive), the Amazon SNS Developer Guide (fan-out, message filtering, FIFO topics), the Amazon MQ Developer Guide, the Amazon EventBridge User Guide (event patterns, archive and replay, cross-account buses), the AWS Step Functions Developer Guide (Standard vs Express, error handling, service integration patterns, Distributed Map, quotas), the Serverless Applications Lens of the Well-Architected Framework, and the Amazon Builders' Library article "Avoiding insurmountable queue backlogs".
+* **Related technologies:** compare Azure Service Bus, Event Grid and Durable Functions; Google Pub/Sub, Eventarc and Workflows; RabbitMQ, ActiveMQ and Apache Kafka; and Temporal, an open-source workflow engine in the same space as Step Functions.
+* **Search for:** `SQS FIFO message group ID`, `SQS visibility timeout heartbeat`, `poison message DLQ redrive`, `SNS payload-based filtering`, `EventBridge vs SNS`, `Step Functions saga pattern`, `waitForTaskToken callback`, `Step Functions Distributed Map`, `claim check pattern`.
+* **Hands-on:** build a small saga in Step Functions in the free tier: three Lambda steps with `Retry` and `Catch`, where a forced failure in the last step runs compensating steps, and follow it in the execution graph.

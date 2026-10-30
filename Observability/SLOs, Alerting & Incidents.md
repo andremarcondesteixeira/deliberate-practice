@@ -24,3 +24,16 @@
 * **Incident Roles & Severity:** What do the incident commander, operations lead, and communications lead do? How do severity levels (SEV1–SEV4) map to customer impact and response expectations?
 * **On-Call Design:** How do rotations, escalation policies, and handovers keep pages reaching the right person without burning people out?
 * **Blameless Postmortems:** How do blameless postmortems find systemic causes instead of blaming people? How do you reconstruct the timeline from metrics, logs, and traces, and make sure action items actually get done?
+
+## Study Guide
+
+* **Books:**
+  * *Site Reliability Engineering* (Betsy Beyer, Chris Jones, Jennifer Petoff & Niall Richard Murphy, free from Google): the chapters on embracing risk, service level objectives, eliminating toil, practical alerting, being on-call, managing incidents, and postmortem culture.
+  * *The Site Reliability Workbook* (Betsy Beyer, Niall Richard Murphy, David K. Rensin, Kent Kawahara & Stephen Thorne, free from Google): the chapters on implementing SLOs and alerting on SLOs (multi-window, multi-burn-rate alerts), plus on-call and incident response.
+  * *Implementing Service Level Objectives* (Alex Hidalgo): the deepest treatment of choosing SLIs, setting targets, and writing error budget policies.
+  * *Chaos Engineering: System Resiliency in Practice* (Casey Rosenthal & Nora Jones): the chapters on the principles of chaos engineering and on designing GameDays.
+* **Official docs:** the Prometheus Alertmanager documentation (configuration, routing tree, grouping, inhibition, silences); PagerDuty's free, open-source *Incident Response* documentation (roles, severity levels, postmortems); the Atlassian Incident Handbook; the Principles of Chaos Engineering manifesto; the OpenSLO specification.
+* **Papers:** "How Complex Systems Fail" (Richard Cook, 1998), a short essay that underpins blameless postmortems.
+* **Related technologies:** compare Sloth and Pyrra (SLO rule generators), Alertmanager, PagerDuty, Opsgenie, and Grafana OnCall (paging), Chaos Mesh, LitmusChaos, and Gremlin (chaos tools), and Healthchecks.io-style heartbeat services (dead man's switches).
+* **Search for:** `error budget policy`, `multiwindow multi-burn-rate alerts`, `SLI good events valid events`, `Alertmanager inhibit_rules`, `Watchdog alert dead man's switch`, `alert on symptoms not causes`, `incident commander role`, `blameless postmortem template`, `toil budget`.
+* **Hands-on:** pick a service you run, write one availability SLI and SLO, generate burn-rate alerts with Sloth or Pyrra, and route them through Alertmanager with grouping and an inhibition rule.

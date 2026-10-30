@@ -31,3 +31,15 @@
 
 * **Java Flight Recorder:** What is JFR, why is its overhead low enough for production, and how do you start, dump, and analyze recordings (`jcmd JFR.start`, JDK Mission Control)?
 * **Production Diagnostic Flags:** Which flags should every production JVM have (`-XX:+HeapDumpOnOutOfMemoryError`, `-XX:HeapDumpPath`, `-Xlog:gc*`, `-XX:+ExitOnOutOfMemoryError`), and why?
+
+## Study Guide
+
+* **Books:**
+  * *Java Performance* (Scott Oaks): the chapters on garbage collection, heap memory, native memory, the JIT compiler and performance tools. This is the most practical single source for this deck.
+  * *Optimizing Cloud Native Java* (Benjamin J. Evans & James Gough): the material on garbage collection, running the JVM in containers, and observability, for the cgroup and production-diagnostics cards.
+  * *The Garbage Collection Handbook* (Richard Jones, Antony Hosking & Eliot Moss): the chapters on generational collection and on concurrent marking, copying and compaction, for the algorithms behind G1, ZGC and Shenandoah.
+* **Official docs:** the Java Virtual Machine Specification chapter "Loading, Linking, and Initializing"; Oracle's "HotSpot Virtual Machine Garbage Collection Tuning Guide" (one chapter per collector); the "Java Platform, Standard Edition Troubleshooting Guide" (OutOfMemoryError types, Native Memory Tracking, JFR and `jcmd`); and JEP 122 (Remove the Permanent Generation), JEP 439 (Generational ZGC), JEP 158 (Unified JVM Logging), and JEPs 483, 514 and 515 for the AOT cache.
+* **Papers:** "Garbage-First Garbage Collection" (Detlefs, Flood, Heller & Printezis, 2004); "The Pauseless GC Algorithm" (Click, Tene & Wolf, 2005), the ancestor of ZGC's load barriers; "Escape Analysis for Java" (Choi et al., 1999).
+* **Related technologies:** compare GraalVM (Native Image and the Graal JIT), Eclipse OpenJ9, Azul Platform Prime (the C4 collector), CRaC (Coordinated Restore at Checkpoint) and Project Leyden; for tooling, async-profiler, Eclipse Memory Analyzer and JDK Mission Control.
+* **Search for:** `MaxRAMPercentage container`, `Native Memory Tracking`, `time to safepoint`, `G1 humongous allocation`, `ZGC colored pointers load barriers`, `Xlog gc unified logging`, `PrintCompilation deoptimization`, and Aleksey Shipilëv's "JVM Anatomy Quarks" series.
+* **Hands-on:** run a small service in Docker with a tight memory limit and `-XX:NativeMemoryTracking=summary`, compare `jcmd <pid> VM.native_memory summary` with the container's memory usage, then raise the thread count and direct buffer use until it gets OOMKilled.

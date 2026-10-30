@@ -56,3 +56,16 @@
 * **WebSocket Security:** How do you prevent cross-site WebSocket hijacking (checking `Origin`, authenticating on connect) and message flooding?
 * **Shadow & Zombie APIs:** What risks do undocumented (shadow) and forgotten old (zombie) API versions pose, and how do you find and retire them?
 * **Web Application Firewalls:** What can a WAF realistically block, how is it bypassed, and why is it a supplement to fixing code rather than a replacement?
+
+## Study Guide
+
+* **Books:**
+  * *The Web Application Hacker's Handbook* (Dafydd Stuttard & Marcus Pinto): the chapters on injection, attacking users (XSS, CSRF), access controls and back-end components, for how each attack really works; it is old, but the fundamentals hold.
+  * *The Tangled Web* (Michal Zalewski): the chapters on the same-origin policy, content sniffing and frame security, for why CORS, CSP and the security headers exist.
+  * *Hacking APIs* (Corey Ball): the chapters on exploiting authorization, mass assignment and attacking GraphQL, for the Access Control & APIs section.
+  * *Web Application Security* (Andrew Hoffman): the defense part on XSS, CSRF, XXE and injection, plus secure architecture, for modern mitigations.
+* **Official docs:** the OWASP Top 10 and OWASP API Security Top 10; OWASP Cheat Sheet Series: SQL Injection Prevention, OS Command Injection Defense, XML External Entity Prevention, Deserialization, Cross Site Scripting Prevention, DOM based XSS Prevention, Content Security Policy, Cross-Site Request Forgery Prevention, Server Side Request Forgery Prevention, File Upload, Mass Assignment, GraphQL and HTTP Headers; the OWASP ASVS; the Fetch Standard's CORS section and MDN's CORS and CSP guides; JEP 290 and JEP 415 for Java deserialization filters; the AWS EC2 docs on IMDSv2.
+* **Papers:** "CSP Is Dead, Long Live CSP! On the Insecurity of Whitelists and the Future of Content Security Policy" (Weichselbaum et al., 2016); "HTTP Desync Attacks: Request Smuggling Reborn" (James Kettle, PortSwigger research, 2019).
+* **Related technologies:** Burp Suite and OWASP ZAP, sqlmap, ysoserial, DOMPurify, RE2, Semgrep and CodeQL, and ModSecurity or Coraza with the OWASP Core Rule Set.
+* **Search for:** `PortSwigger Web Security Academy` (free labs for nearly every card here), `blind SQL injection time based`, `SSTI payloads`, `billion laughs`, `java deserialization gadget chain`, `strict-dynamic CSP`, `CORS origin reflection`, `DNS rebinding SSRF`, `catastrophic backtracking`, `prototype pollution`.
+* **Hands-on:** run OWASP Juice Shop locally and attack it through Burp Suite or ZAP until you have exploited SQL injection, stored XSS and an IDOR yourself, then look for the same patterns in code you own.

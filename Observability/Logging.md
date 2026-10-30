@@ -17,3 +17,14 @@
 * **Lab — Log Pipeline Backpressure:**
   * *Setup:* A traffic surge makes log shippers buffer in memory, drop logs, and finally get OOMKilled.
   * *Challenge:* Configure filesystem-backed buffers, backpressure behavior, and adaptive sampling. Decide which logs you're willing to drop first.
+
+## Study Guide
+
+* **Books:**
+  * *Logging in Action* (Phil Wilkins): the chapters on Fluentd and Fluent Bit pipelines, buffering, Kubernetes log collection, and logging best practices.
+  * *Observability Engineering* (Charity Majors, Liz Fong-Jones & George Miranda): the chapters on structured events and on telemetry pipelines and sampling, for why wide structured events beat free-text logs.
+  * *Distributed Systems Observability* (Cindy Sridharan, free O'Reilly report): the chapter on the three pillars, for what logs are good and bad at compared with metrics and traces.
+* **Official docs:** the Grafana Loki documentation (labels, cardinality best practices, LogQL); the Elasticsearch documentation (index lifecycle management, data tiers, ingest pipelines and Grok); the Fluent Bit manual ("Buffering and Storage", backpressure); the Vector documentation (buffers, sampling, and throttle transforms); the Log4j2 manual ("Asynchronous Loggers"); the OpenTelemetry specification on logs and log correlation; the OWASP Logging Cheat Sheet; NIST SP 800-92, *Guide to Computer Security Log Management*.
+* **Related technologies:** compare Fluent Bit, Vector, and the OpenTelemetry Collector (agents), Kafka (buffering), Loki, Elasticsearch/OpenSearch, and ClickHouse (storage), S3 or other object storage (cold tiers), and Logback, Log4j2, or SLF4J's MDC (trace ID injection).
+* **Search for:** `structured logging best practices`, `MDC trace id`, `Loki label cardinality`, `Grok patterns`, `Fluent Bit filesystem buffer`, `log sampling rate limiting`, `Log4j2 AsyncLogger ring buffer full`, `log redaction PII`, `immutable audit log WORM storage`.
+* **Hands-on:** run an app, Fluent Bit, and Loki with Docker Compose, emit JSON logs with trace IDs, query them with LogQL, then flood the pipeline and watch how the buffer settings change what gets dropped.

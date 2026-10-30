@@ -41,3 +41,15 @@
 * **UPSERT & MERGE:** Compare `INSERT ... ON CONFLICT DO UPDATE` (PostgreSQL), `ON DUPLICATE KEY UPDATE` (MySQL), and standard `MERGE`. Which are safe under concurrency without extra locking?
 * **TRUNCATE vs DELETE:** Contrast `TRUNCATE` (DDL-like, deallocates storage, resets identity, minimal logging) with `DELETE` (row-by-row DML, fires triggers). Is `TRUNCATE` transactional in PostgreSQL? In MySQL?
 * **Temporary & Unlogged Tables:** When should you use session-scoped temp tables, transaction-scoped temp tables, or unlogged tables for scratch data? What do you lose with unlogged tables after a crash?
+
+## Study Guide
+
+* **Books:**
+  * *Learning SQL* (Alan Beaulieu): a clear walk through filtering, NULLs, joins, subqueries, set operations, grouping, conditional logic and analytic (window) functions; the fastest refresher for most of this deck.
+  * *SQL Cookbook* (Anthony Molinaro & Robert de Graaf): recipes for pivoting, ranking, running totals, date arithmetic, hierarchies and recursive queries, with solutions for PostgreSQL, MySQL, SQL Server and Oracle side by side.
+  * *SQL Antipatterns* (Bill Karwin): chapters such as "Fear of the Unknown" (NULL), "Ambiguous Groups", "Poor Man's Search Engine" and "Keyless Entry" explain why the obvious query or schema is often wrong.
+  * *SQL Performance Explained* (Markus Winand): the Partial Results chapter, for top-N queries and keyset pagination.
+* **Official docs:** the PostgreSQL manual's "Queries" chapter (table expressions, joins, combining queries, `WITH` queries), the "Functions and Operators" chapter (conditional expressions, pattern matching, date/time functions, window functions, subquery expressions), the constraints section of "Data Definition", and the `INSERT`, `MERGE` and `TRUNCATE` reference pages; and the MySQL Reference Manual's pages on `INSERT ... ON DUPLICATE KEY UPDATE` and statements that cause an implicit commit.
+* **Related technologies:** compare dialects across PostgreSQL, MySQL, SQL Server (T-SQL) and Oracle (where an empty string is NULL), and use SQLite or DuckDB as zero-setup sandboxes.
+* **Search for:** `logical query processing order`, `three-valued logic SQL`, `NOT IN NULL trap`, `keyset pagination seek method`, `window function default frame`, `top N per group`, `recursive CTE cycle detection`, `INSERT ON CONFLICT concurrency`, `Oracle empty string NULL`, and Markus Winand's *Modern SQL* site for which features each database supports.
+* **Hands-on:** build a small `employees`/`departments` schema in PostgreSQL and answer each card with a query, then run the traps (`NOT IN` with a `NULL`, a `LEFT JOIN` filtered in `WHERE`, `LAST_VALUE` with the default frame) and see the wrong answers for yourself.

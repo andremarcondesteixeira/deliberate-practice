@@ -48,3 +48,16 @@
 * **Lab — MTU Black Hole:**
   * *Setup:* Clients can ping a server and load small pages, but large uploads and gRPC streams hang forever. Traffic goes through a VPN/overlay tunnel.
   * *Challenge:* Diagnose a path MTU black hole caused by encapsulation overhead plus blocked ICMP "Fragmentation Needed" messages, and fix it with MSS clamping, a lower MTU, or allowing that ICMP traffic.
+
+## Study Guide
+
+* **Books:**
+  * *TCP/IP Illustrated, Volume 1* (W. Richard Stevens; second edition revised by Kevin R. Fall): the chapters on TCP connection management, timeouts and data flow, for handshakes, `TIME_WAIT`, keep-alives, Nagle and MTU.
+  * *UNIX Network Programming, Volume 1* (W. Richard Stevens, Bill Fenner & Andrew M. Rudoff): the chapters on TCP client/server behavior and socket options, for `CLOSE_WAIT`, `TCP_NODELAY` and what the kernel does when you close a socket.
+  * *High Performance Browser Networking* (Ilya Grigorik, free online from O'Reilly): the parts on TCP, TLS, HTTP/1.1, HTTP/2, WebSocket and Server-Sent Events, for latency, connection reuse and head-of-line blocking.
+  * *HTTP/2 in Action* (Barry Pollard): the chapters on streams and multiplexing and on QUIC and HTTP/3, for what each protocol version fixed.
+* **Official docs:** RFC 9293 (TCP), RFC 9110 (HTTP Semantics: methods, status codes, content negotiation), RFC 9111 (HTTP Caching), RFC 9113 (HTTP/2), RFC 9000 (QUIC) and RFC 9114 (HTTP/3), RFC 6455 (WebSocket), RFC 7239 (Forwarded), RFC 5861 (`stale-while-revalidate`), the HAProxy PROXY protocol specification, the HTML Living Standard's section on server-sent events, the gRPC docs on deadlines and load balancing, and the Linux `tcp(7)` man page and `ip-sysctl` kernel docs.
+* **Papers:** "Congestion Avoidance and Control" (Van Jacobson, 1988); "The QUIC Transport Protocol: Design and Internet-Scale Deployment" (Langley et al., 2017).
+* **Related technologies:** `tcpdump`, Wireshark, `ss`, `dig`, `mtr` and `curl --http3` for diagnosis; Envoy, NGINX and HAProxy as proxies and load balancers; Cloudflare, Fastly and CloudFront for CDN and edge behavior.
+* **Search for:** `TIME_WAIT tcp_tw_reuse`, `CLOSE_WAIT leak`, `Nagle delayed ACK 40ms`, `TCP head-of-line blocking HTTP/2`, `PMTUD black hole MSS clamping`, `X-Forwarded-For spoofing`, `slowloris`, `BREACH compression attack`, `JVM DNS cache TTL`.
+* **Hands-on:** capture `curl` requests in Wireshark over HTTP/1.1, HTTP/2 and HTTP/3 and count the round trips before the first byte; then watch `ss -tan` while closing connections from each side to see which end lands in `TIME_WAIT` and which in `CLOSE_WAIT`.

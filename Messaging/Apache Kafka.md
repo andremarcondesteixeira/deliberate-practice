@@ -69,3 +69,16 @@
 * **Lab — Cross-DC Replication Saturating the WAN:**
   * *Setup:* MirrorMaker 2 replication saturates the inter-datacenter link and slows user traffic.
   * *Challenge:* Reduce bandwidth with compression (`zstd`), larger batches, replicating only the topics you need, and quotas/rate limits.
+
+## Study Guide
+
+* **Books:**
+  * *Kafka: The Definitive Guide* (Gwen Shapira, Todd Palino, Rajini Sivaram & Krit Petty): the chapters on producers, consumers, Kafka internals, reliable data delivery, exactly-once semantics, cross-cluster mirroring, security, administration and monitoring cover nearly every card. Use the second edition; KRaft, tiered storage and KIP-848 matured after it, so read the official docs for those.
+  * *Designing Event-Driven Systems* (Ben Stopford, free from Confluent): the chapters on the log, stream-table duality, exactly-once and event-driven service design.
+  * *Kafka Streams in Action* (William P. Bejeck Jr.): state stores, changelog topics, standby replicas and KTables.
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Stream Processing chapter's section on log-based message brokers, for why Kafka is built the way it is.
+* **Official docs:** the Apache Kafka documentation's "Design" section (persistence, efficiency, message delivery semantics, replication, log compaction), its "Operations" section (KRaft, ZooKeeper migration, tiered storage, monitoring, geo-replication), the "Security" section, the configuration reference for brokers, topics, producers and consumers, and the Kafka Streams developer guide. The Kafka Improvement Proposals (KIPs) on the Apache wiki explain the design behind each feature.
+* **Papers:** "Kafka: a Distributed Messaging System for Log Processing" (Kreps, Narkhede & Rao, 2011).
+* **Related technologies:** compare Redpanda (Kafka API, one Raft group per partition), Apache Pulsar (brokers separated from BookKeeper storage), RabbitMQ streams, Amazon Kinesis, and managed Kafka (Amazon MSK, Confluent Cloud).
+* **Search for:** `Kafka ISR high watermark`, `leader epoch truncation`, `idempotent producer sequence numbers`, `transactional.id zombie fencing`, `cooperative sticky assignor`, `max.poll.interval.ms`, `log cleaner dirty ratio`, the KIPs behind the deck (KIP-98 exactly-once, KIP-101 leader epochs, KIP-405 tiered storage, KIP-500 and KIP-866 for KRaft, KIP-848), and Jay Kreps's essay "The Log" (expanded into the short book *I Heart Logs*).
+* **Hands-on:** run a 3-broker KRaft cluster in Docker, produce with `acks=all` while you stop brokers one by one, and watch the ISR with `kafka-topics.sh --describe` and consumer lag with `kafka-consumer-groups.sh --describe`.

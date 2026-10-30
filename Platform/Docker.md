@@ -58,3 +58,15 @@
 * **Capabilities & Hardening Flags:** How do you harden a container with `--cap-drop ALL` plus selective `--cap-add`, `--security-opt no-new-privileges`, `--read-only`, and a non-root `USER`?
 * **Seccomp & AppArmor/SELinux:** How do seccomp syscall filters and mandatory access control profiles limit what a containerized process can do, even as root?
 * **Container Escape Vectors:** What are the classic escape paths (a mounted `/var/run/docker.sock`, `--privileged`, dangerous capabilities like `CAP_SYS_ADMIN`, sensitive host path mounts, kernel exploits), and how do you spot them in a review?
+
+## Study Guide
+
+* **Books:**
+  * *Container Security* (Liz Rice): the chapters on namespaces, cgroups, container root filesystems, capabilities, seccomp/AppArmor/SELinux and container escapes, which cover the Container Fundamentals and Security sections almost entirely.
+  * *Docker Deep Dive* (Nigel Poulton): the chapters on the Docker engine, images, containerizing an app, networking, volumes and Compose, for how `dockerd`, `containerd` and `runc` fit together and for everyday Dockerfile practice.
+  * *Docker: Up & Running* (Sean P. Kane & Karl Matthias): the chapters on building images and the advanced topics on storage, networking and security, for multi-stage builds, BuildKit and production tuning.
+  * *The Linux Programming Interface* (Michael Kerrisk): the chapters on signals, process termination and monitoring child processes, for the PID 1 signal and zombie-reaping problem.
+* **Official docs:** the Docker docs' Dockerfile reference and its pages on the build cache, build secrets, multi-stage builds, packet filtering and firewalls (iptables and `ufw`), the Compose file reference and environment variable precedence, rootless mode, seccomp profiles, and logging drivers; the OCI Image Format and Runtime specifications; the Linux man pages `namespaces(7)`, `cgroups(7)`, `capabilities(7)` and `pivot_root(2)`; the kernel docs "Control Group v2" and "Overlay Filesystem".
+* **Related technologies:** Podman and Buildah (daemonless, rootless by default), containerd with `nerdctl`, `runc` vs `crun`, gVisor and Kata Containers for stronger isolation, kaniko for unprivileged builds, distroless and Chainguard images, `tini` and `dumb-init`.
+* **Search for:** `containers from scratch` (Liz Rice's talk), `docker pid 1 zombie reaping`, `overlayfs copy up`, `docker embedded dns 127.0.0.11`, `docker ufw bypass DOCKER-USER`, `buildkit cache mount`, `docker.sock privilege escalation`, `CAP_SYS_ADMIN container escape`.
+* **Hands-on:** build a container by hand: export an Alpine filesystem with `docker export`, then use `unshare` and `chroot` (later `pivot_root`) to give a shell its own PID, mount and UTS namespaces, and compare what it sees with a shell from `docker run`.

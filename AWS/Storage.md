@@ -25,3 +25,15 @@
 * **EFS vs EBS:** When do you choose EFS (multi-AZ shared NFS) over EBS (single-AZ block storage)? Explain EFS performance modes and throughput modes (elastic, bursting, provisioned).
 * **FSx Family:** When do you pick FSx for Windows File Server (SMB, Active Directory), FSx for Lustre (HPC/ML, S3 integration), FSx for NetApp ONTAP, or FSx for OpenZFS?
 * **Storage Gateway:** Contrast File Gateway, Volume Gateway, and Tape Gateway for hybrid storage.
+
+## Study Guide
+
+* **Books:**
+  * *Amazon Web Services in Action* (Andreas Wittig & Michael Wittig): the chapters on object storage with S3, block storage with EBS and instance store, and shared file systems with EFS.
+  * *Systems Performance* (Brendan Gregg): the Disks and File Systems chapters, for IOPS, throughput, latency and I/O wait, so you can read EBS metrics and diagnose the gp2 lab.
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Replication and Consistency and Consensus chapters, for what read-after-write consistency guarantees and what it leaves open for concurrent writers.
+* **Official docs:** the Amazon S3 User Guide (data consistency model, storage classes, lifecycle, Object Lock, Object Ownership and Block Public Access, presigned URLs, performance design patterns, replication, access points, Bucket Keys), the CloudFront Developer Guide on signed URLs and cookies, the Amazon EBS User Guide (volume types, I/O credits and burst performance, Elastic Volumes, snapshots, Fast Snapshot Restore), the Amazon EFS and FSx user guides, the Storage Gateway User Guide, and the Cost Optimization pillar of the Well-Architected Framework. The re:Invent deep dives on S3 and EBS are worth watching.
+* **Papers:** "Using Lightweight Formal Methods to Validate a Key-Value Storage Node in Amazon S3" (Bornholt et al., 2021); "Millions of Tiny Databases" (Brooker et al., 2020), on how EBS manages replication configuration.
+* **Related technologies:** compare Azure Blob Storage, Managed Disks and Azure Files; Google Cloud Storage, Persistent Disk and Filestore; MinIO and Ceph (S3-compatible object and block storage); and NetApp ONTAP, Lustre and OpenZFS themselves.
+* **Search for:** `S3 strong consistency`, `S3 storage class minimum duration`, `S3 Object Lock compliance mode`, `S3 Object Ownership bucket owner enforced`, `S3 request rate per prefix`, `S3 replication what is not replicated`, `S3 KMS AccessDenied kms:Decrypt`, `gp2 burst balance`, `gp3 vs gp2`, `EBS snapshot lazy loading`, `EFS throughput modes`.
+* **Hands-on:** create a versioned bucket encrypted with a customer managed KMS key (about a dollar a month), give a role `s3:GetObject` but not `kms:Decrypt`, reproduce the `AccessDenied`, find the KMS denial in CloudTrail, then fix it and add a lifecycle rule for noncurrent versions.

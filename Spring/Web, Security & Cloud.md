@@ -28,3 +28,15 @@
 * **Resilience4j:** How do Resilience4j's circuit breaker, retry, rate limiter, bulkhead, and time limiter integrate with Spring Boot, and in which order are they applied when combined?
 * **Test Slices & Mocks:** Contrast `@SpringBootTest` with slices like `@WebMvcTest`, `@DataJpaTest`, and `@JsonTest`. How do `@MockitoBean` (which replaced the deprecated `@MockBean` in Boot 3.4) and context caching affect test speed?
 * **Testcontainers:** How does Testcontainers run real dependencies (PostgreSQL, Kafka, Redis) in tests, and how do `@ServiceConnection` and reusable containers simplify setup?
+
+## Study Guide
+
+* **Books:**
+  * *Spring Security in Action* (Laurențiu Spilcă, second edition): the chapters on the filter chain, authentication providers, password encoders, authorization and method security, CSRF, and OAuth 2 resource servers. Written for Spring Security 6.
+  * *Cloud Native Spring in Action* (Thomas Vitale): the chapters on Spring Cloud Config, Spring Cloud Gateway with Resilience4j, and testing with slices and Testcontainers. Written for Boot 2.7, but the concepts carry over to Boot 3.
+  * *OAuth 2 in Action* (Justin Richer & Antonio Sanso): the chapters on protected resources, tokens and JWTs, for what a resource server must check and why.
+  * *Release It!* (Michael T. Nygard): the stability patterns chapter (timeouts, circuit breakers, bulkheads), the ideas Resilience4j implements.
+* **Official docs:** the Spring Framework reference's "Web on Servlet Stack" part (DispatcherServlet, filters, annotated controllers, validation, error responses with `ProblemDetail`, asynchronous requests); the Spring Security reference's servlet architecture, authentication, authorization, method security, OAuth2 resource server and CSRF sections; the Spring Cloud Config, Spring Cloud Netflix and Spring Cloud Gateway references; the Resilience4j documentation; the Spring Boot reference's testing section; and RFC 9457 (Problem Details), RFC 6750 (Bearer Token Usage) and RFC 7519 (JWT).
+* **Related technologies:** compare Spring WebFlux (the reactive stack), Keycloak and Spring Authorization Server (token issuers), Kubernetes ConfigMaps and Services (built-in configuration and discovery), Envoy-based gateways and service meshes such as Istio, and Netflix Hystrix (Resilience4j's retired predecessor).
+* **Search for:** `Spring Security filter chain order`, `DelegatingFilterProxy FilterChainProxy`, `AuthorizationManager Spring Security 6`, `JWT validation iss aud exp`, `CSRF cookie vs bearer token`, `Eureka self-preservation`, `Resilience4j aspect order`, `Spring test context caching`, and the OWASP "Cross-Site Request Forgery Prevention Cheat Sheet".
+* **Hands-on:** secure a small REST API as an OAuth2 resource server against a local Keycloak in Docker, set `logging.level.org.springframework.security=TRACE` to watch the filter chain, then write `@WebMvcTest` tests for allowed and denied requests.

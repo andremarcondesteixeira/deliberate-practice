@@ -35,3 +35,16 @@
 ## Authorization
 
 * **RBAC vs ABAC:** Contrast role-based access control with attribute-based access control (department, resource classification, time, location). When does RBAC "role explosion" push you toward ABAC or relationship-based access control (Zanzibar-style)?
+
+## Study Guide
+
+* **Books:**
+  * *API Security in Action* (Neil Madden): the chapters on session cookie authentication, token-based authentication, self-contained tokens and JWTs, OAuth2 and OpenID Connect, and identity-based access control, covering most of this deck in one place.
+  * *OAuth 2 in Action* (Justin Richer & Antonio Sanso): the chapters on the authorization code flow, client types, common vulnerabilities and OpenID Connect, for PKCE and why the implicit flow was deprecated.
+  * *Solving Identity Management in Modern Applications* (Yvonne Wilson & Abhishek Hingnikar): the chapters on OIDC, SAML, sessions and MFA, for the federation and enterprise SSO picture.
+  * *Spring Security in Action* (Laurențiu Spilcă): the chapters on authentication, CSRF and OAuth 2 resource servers, for how a framework applies these defenses by default.
+* **Official docs:** NIST SP 800-63B (Digital Identity Guidelines: authentication, passwords, MFA); OWASP Cheat Sheet Series: Password Storage, Authentication, Session Management, Forgot Password, Credential Stuffing Prevention and JSON Web Token; RFC 9106 (Argon2) and RFC 6238 (TOTP); the W3C Web Authentication specification; RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), RFC 9700 (OAuth 2.0 Security Best Current Practice), RFC 8693 (Token Exchange) and RFC 7662 (Token Introspection); RFC 7519 (JWT), RFC 7515 (JWS), RFC 7516 (JWE) and RFC 8725 (JWT Best Current Practices); OpenID Connect Core 1.0; the OASIS SAML 2.0 standard; NIST SP 800-162 (ABAC).
+* **Papers:** "Zanzibar: Google's Consistent, Global Authorization System" (Pang et al., 2019).
+* **Related technologies:** Keycloak, Auth0/Okta, Microsoft Entra ID and Spring Authorization Server as identity providers; OpenFGA, SpiceDB, Cedar and OPA for authorization; Have I Been Pwned's Pwned Passwords range API for breached-password checks.
+* **Search for:** `argon2id parameters`, `rehash password on login`, `account enumeration timing`, `TOTP HMAC time step`, `passkeys phishing resistance`, `__Host- cookie prefix`, `session fixation`, `JWT algorithm confusion`, `refresh token rotation`, `OAuth PKCE`, `RBAC role explosion`.
+* **Hands-on:** run Keycloak in Docker, register a public client, walk the authorization code + PKCE flow by hand with `curl`, then decode the ID and access tokens and list every claim your API should validate.

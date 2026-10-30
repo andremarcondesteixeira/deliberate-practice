@@ -36,3 +36,15 @@
 * **Lab — ALB 502 Bad Gateway:**
   * *Setup:* An ALB in front of ECS returns intermittent 502s.
   * *Challenge:* Explain the usual causes: targets closing keep-alive connections before the ALB does (app idle timeout shorter than the ALB's), wrong port mappings, tasks killed during deploys without enough deregistration delay, and failing health checks.
+
+## Study Guide
+
+* **Books:**
+  * *Amazon Web Services in Action* (Andreas Wittig & Michael Wittig): the chapters on EC2, Auto Scaling, Lambda, and (in the third edition) containers on ECS and Fargate cover most of this deck with runnable examples.
+  * *Serverless Architectures on AWS* (Peter Sbarski, Yan Cui & Ajay Nair, second edition): Lambda's execution model, concurrency, event sources, error handling, and where API Gateway fits.
+  * *AWS Certified Solutions Architect Study Guide* (Ben Piper & David Clinton): the EC2 chapter, for purchasing options, AMIs, placement groups and Auto Scaling policies at exam-level detail.
+* **Official docs:** the Amazon EC2 User Guide (purchasing options, Spot interruptions, placement groups, Nitro), the EC2 Auto Scaling User Guide (scaling policies, instance warm-up, lifecycle hooks, instance refresh), the AWS Lambda Developer Guide (execution environment lifecycle, concurrency, asynchronous invocation, event source mappings, quotas), the Amazon ECS Developer Guide and the "Amazon ECS Best Practices Guide", the ALB troubleshooting section of the Elastic Load Balancing docs, the "Security Overview of AWS Lambda" whitepaper, and the Amazon Builders' Library article "Timeouts, retries, and backoff with jitter".
+* **Papers:** "Firecracker: Lightweight Virtualization for Serverless Applications" (Agache et al., 2020); "On-demand Container Loading in AWS Lambda" (Brooker et al., 2023).
+* **Related technologies:** compare Azure VM Scale Sets and Azure Functions, Google Compute Engine managed instance groups and Cloud Run, and Kubernetes (Deployments and the Horizontal Pod Autoscaler are the open-source parallel to ECS services and Auto Scaling).
+* **Search for:** `Spot interruption notice handling`, `target tracking vs step scaling`, `Lambda init phase cold start`, `reserved vs provisioned concurrency`, `Lambda partial batch response`, `claim check pattern`, `ECS task execution role vs task role`, `ALB 502 keep-alive idle timeout`, and re:Invent deep dives on the Nitro system and Lambda internals.
+* **Hands-on:** in the free tier, trigger a Lambda from S3 uploads, make it sleep past the 3-second default timeout, and watch the timeouts and async retries in CloudWatch Logs before fixing the timeout and adding an on-failure destination.

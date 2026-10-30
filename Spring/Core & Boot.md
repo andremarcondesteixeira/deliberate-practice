@@ -40,3 +40,15 @@
 * **Lab — Duplicate Bean Definitions:**
   * *Setup:* After a dependency upgrade, startup fails because two bean definitions share the same name.
   * *Challenge:* Explain why Boot disables bean definition overriding by default, and fix it by renaming or conditionalizing a bean instead of setting `spring.main.allow-bean-definition-overriding=true`.
+
+## Study Guide
+
+* **Books:**
+  * *Pro Spring 6* (Iuliana Cosmina, Rob Harrop, Chris Schaefer & Clarence Ho): the chapters on the IoC container, bean lifecycle and configuration, and Spring AOP. A deep reference written for Spring Framework 6 and Boot 3.
+  * *Spring Start Here* (Laurențiu Spilcă): a gentle explanation of the context, wiring, bean scopes and aspects, good if the container fundamentals feel shaky.
+  * *Cloud Native Spring in Action* (Thomas Vitale): the chapters on externalized configuration and profiles, Kubernetes deployment (graceful shutdown, liveness and readiness probes) and Actuator. Written for Boot 2.7, but the concepts carry over to Boot 3.
+* **Official docs:** the Spring Framework reference's "Core Technologies" part (the IoC Container chapter: bean scopes, lifecycle callbacks, container extension points, Java-based configuration, the environment abstraction; and "Aspect Oriented Programming with Spring", including proxying mechanisms); and the Spring Boot reference sections on SpringApplication, externalized configuration, profiles, "Creating Your Own Auto-configuration", graceful shutdown and Actuator (health groups, Kubernetes probes).
+* **Papers:** "Aspect-Oriented Programming" (Kiczales et al., 1997); Martin Fowler's essay "Inversion of Control Containers and the Dependency Injection pattern" (2004), the classic explanation of DI.
+* **Related technologies:** compare Google Guice and Dagger (DI without Spring), Jakarta CDI, AspectJ (compile-time and load-time weaving versus Spring's runtime proxies), and Micronaut and Quarkus (DI and AOP resolved at build time instead of through runtime reflection).
+* **Search for:** `Spring bean lifecycle`, `BeanPostProcessor vs BeanFactoryPostProcessor`, `@Configuration proxyBeanMethods`, `Spring self-invocation proxy`, `Spring Boot condition evaluation report`, `ConfigurationProperties constructor binding`, `Spring Boot liveness readiness probes`, and the source of `spring-boot-autoconfigure`, whose classes are short and readable.
+* **Hands-on:** write your own starter (an `@AutoConfiguration` class with `@ConditionalOnMissingBean` and `@ConfigurationProperties`), use it in an app, override its bean, and run with `--debug` to read the condition evaluation report.

@@ -25,3 +25,16 @@
 * **Data at Rest, in Transit & in Use:** How do protections differ for data at rest (disk/storage encryption), in transit (TLS), and in use (enclaves, confidential computing)? Which threats does disk encryption not stop?
 * **Column-Level Encryption:** When do you need application-level or column-level encryption on top of storage encryption, and what does it cost (querying, indexing, key management)?
 * **Masking vs Tokenization:** Contrast data masking (hiding data for display or test copies) with tokenization (replacing data with surrogates mapped in a vault). Why does tokenization shrink PCI scope?
+
+## Study Guide
+
+* **Books:**
+  * *Serious Cryptography* (Jean-Philippe Aumasson): the chapters on randomness, block ciphers, authenticated encryption, hash functions, RSA, elliptic curves and TLS (the second edition adds post-quantum cryptography), for the Primitives section.
+  * *Real-World Cryptography* (David Wong): the chapters on authenticated encryption, key exchange, signatures, secure transport and post-quantum cryptography, for how primitives combine in real protocols and where they fail.
+  * *Bulletproof TLS and PKI* (Ivan Ristić): the chapters on the TLS protocol, PKI, revocation and server configuration, for the TLS & PKI section.
+  * *Cryptography Engineering* (Niels Ferguson, Bruce Schneier & Tadayoshi Kohno): the parts on implementation issues and key management, for side channels and keeping keys out of code.
+* **Official docs:** RFC 8446 (TLS 1.3, including its 0-RTT replay discussion), RFC 5280 (X.509 certificate and CRL profile), RFC 6960 (OCSP), RFC 6066 (TLS extensions, including the certificate status request used for OCSP stapling), NIST SP 800-38D (GCM), FIPS 203 (ML-KEM) and FIPS 204 (ML-DSA), JEP 452 (Key Encapsulation Mechanism API) and JEP 496 (ML-KEM in the JDK), the SPIFFE specifications, the AWS KMS docs on envelope encryption, and OWASP Cheat Sheet Series: Cryptographic Storage, Transport Layer Security and Key Management.
+* **Papers:** "Timing Attacks on Implementations of Diffie-Hellman, RSA, DSS, and Other Systems" (Paul Kocher, 1996); "Security Flaws Induced by CBC Padding: Applications to SSL, IPSEC, WTLS..." (Serge Vaudenay, 2002); "Nonce-Disrespecting Adversaries: Practical Forgery Attacks on GCM in TLS" (Böck et al., 2016).
+* **Related technologies:** OpenSSL and `openssl s_client`, Google Tink and libsodium (misuse-resistant APIs), AWS KMS and CloudHSM, Vault's Transit secrets engine, Let's Encrypt and ACME, cert-manager, SPIRE, Certificate Transparency logs, and confidential computing platforms (AWS Nitro Enclaves, AMD SEV-SNP, Intel TDX).
+* **Search for:** `Cryptopals challenges` (hands-on attacks, including CBC padding oracles), `AES-GCM nonce reuse forbidden attack`, `constant time comparison`, `harvest now decrypt later`, `X25519MLKEM768 hybrid key exchange`, `OCSP soft fail`, `missing intermediate certificate`, `envelope encryption data key`, `tokenization PCI scope`.
+* **Hands-on:** use `openssl s_client -showcerts` against a few public sites, save the chain, verify it by hand with `openssl verify`, then drop the intermediate and watch verification fail; finally capture a TLS 1.3 handshake in Wireshark with `SSLKEYLOGFILE` set to see which parts are encrypted.

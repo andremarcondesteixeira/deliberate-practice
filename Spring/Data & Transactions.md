@@ -30,3 +30,15 @@
 * **Page vs Slice:** How do `Pageable`, `Page`, and `Slice` differ, and why can the extra count query behind `Page` be expensive?
 * **Auditing:** How do `@CreatedDate`, `@LastModifiedDate`, `@CreatedBy`, and `AuditorAware` fill audit columns automatically?
 * **Reactive Data Access:** How do R2DBC and reactive MongoDB repositories provide non-blocking database access with Project Reactor, and how do transactions work without a thread-bound connection?
+
+## Study Guide
+
+* **Books:**
+  * *High-Performance Java Persistence* (Vlad Mihalcea): the JPA and Hibernate part (persistence context, flushing, batching, fetching, caching, concurrency control) and the chapter on transactions. This is the best single source for this deck.
+  * *Java Persistence with Spring Data and Hibernate* (Cătălin Tudose): the chapters on Spring Data JPA repositories and queries, and on the persistence context, fetch plans and transactions.
+  * *Pro Spring 6* (Iuliana Cosmina, Rob Harrop, Chris Schaefer & Clarence Ho): the transaction management chapter (declarative and programmatic transactions, propagation, rollback rules).
+  * *Patterns of Enterprise Application Architecture* (Martin Fowler): the Unit of Work, Identity Map, Lazy Load, and Optimistic and Pessimistic Offline Lock patterns that Hibernate implements.
+* **Official docs:** the Spring Framework reference's "Data Access" part (Transaction Management: declarative transactions, propagation, rollback rules, `TransactionalOperator` for reactive code; and JDBC access with `JdbcClient`); the Spring Data JPA reference (query methods, `@Query`, modifying queries, specifications, auditing, projections); the Hibernate ORM User Guide chapters on the persistence context, flushing, fetching, batching, locking and caching; and the Spring Data R2DBC reference.
+* **Related technologies:** compare jOOQ and MyBatis (SQL-first), Spring Data JDBC (aggregates with no persistence context or lazy loading), Querydsl for type-safe dynamic queries, R2DBC drivers, and datasource-proxy for counting queries in tests.
+* **Search for:** `UnexpectedRollbackException rollback-only`, `REQUIRES_NEW connection pool deadlock`, `N+1 query problem JPA`, `MultipleBagFetchException`, `firstResult/maxResults specified with collection fetch`, `open session in view anti-pattern`, `Hibernate dirty checking flush`, `@Modifying clearAutomatically`, and Vlad Mihalcea's blog, which covers nearly every card here.
+* **Hands-on:** build a small Spring Boot app with `Order` and `OrderItem` entities on PostgreSQL in Testcontainers, turn on SQL logging and Hibernate statistics, reproduce the N+1 problem and the `UnexpectedRollbackException`, then fix each and assert the query count in a test.

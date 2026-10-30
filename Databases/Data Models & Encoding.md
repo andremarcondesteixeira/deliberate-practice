@@ -14,3 +14,15 @@
 * **Protobuf, Thrift & Avro:** Compare how Protocol Buffers and Thrift (field tags) and Avro (no tags, writer schema) encode data. Which schema changes are safe in each (adding/removing fields, renaming, changing types)?
 * **Avro Schema Resolution:** How does Avro resolve the writer's schema against the reader's schema, and how does the reader learn which writer schema was used (file header, schema registry ID)?
 * **Schema Registries & Event Evolution:** How does a schema registry enforce `BACKWARD`, `FORWARD`, and `FULL` compatibility for Kafka topics, and how does that let producers and consumers upgrade independently?
+
+## Study Guide
+
+* **Books:**
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Data Models and Query Languages chapter covers relational vs document vs graph models, CODASYL, Cypher, SPARQL and Datalog, and the Encoding and Evolution chapter covers compatibility, the pitfalls of JSON, Protobuf/Thrift field tags and Avro schema resolution. Together they cover almost this entire deck.
+  * *Graph Databases* (Ian Robinson, Jim Webber & Emil Eifrem): the chapters on graph data modeling and graph database internals, for property graphs, Cypher and index-free adjacency.
+  * *Kafka: The Definitive Guide* (Gwen Shapira, Todd Palino, Rajini Sivaram & Krit Petty): the Kafka Producers chapter, for Avro serialization and how a schema registry plugs into producers and consumers.
+* **Official docs:** the Apache Avro specification's "Schema Resolution" and "Object Container Files" sections; the Protocol Buffers Language Guide, especially "Updating A Message Type"; Confluent's Schema Registry documentation on schema evolution and compatibility types; and the Neo4j Cypher Manual for pattern matching and variable-length paths.
+* **Papers:** "A Relational Model of Data for Large Shared Data Banks" (E. F. Codd, 1970); "What Goes Around Comes Around" (Michael Stonebraker & Joseph M. Hellerstein, 2005), a tour of data models from CODASYL onward and why old ideas keep coming back.
+* **Related technologies:** compare PostgreSQL `JSONB` with MongoDB (document vs relational in practice), Neo4j with an RDF store such as Apache Jena (property graph vs triples), Datomic (Datalog in production), and Protobuf vs Avro vs Thrift vs MessagePack for encoding.
+* **Search for:** `schema-on-read vs schema-on-write`, `index-free adjacency`, `Datalog recursive query`, `protobuf reserved field numbers`, `Avro writer schema reader schema`, `schema registry compatibility types`, `JSON number precision 2^53`, and Kleppmann's blog post "Schema evolution in Avro, Protocol Buffers and Thrift".
+* **Hands-on:** define the same record in Protobuf and Avro, serialize it, then add, remove and rename a field and check which old and new readers can still decode the bytes.

@@ -23,3 +23,16 @@
 * **Two-Phase Locking:** Walk through 2PL with shared and exclusive locks, including predicate and index-range (next-key/gap) locks for phantoms. Why does 2PL perform poorly under contention, and why is it unrelated to two-phase commit?
 * **Serializable Snapshot Isolation:** How does SSI (PostgreSQL `SERIALIZABLE`) achieve serializability optimistically by tracking read-write antidependencies and aborting transactions that form a dangerous structure? What must the application do on serialization failures?
 * **Deadlocks:** How do lock managers detect cycles in a wait-for graph and choose a victim? Which application practices (consistent lock ordering, short transactions, lock timeouts) prevent deadlocks?
+
+## Study Guide
+
+* **Books:**
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Transactions chapter is the best single source for this whole deck, covering every anomaly, snapshot isolation, 2PL and SSI.
+  * *Database Internals* (Alex Petrov): the chapters on transaction processing and recovery, for how lock managers, MVCC and concurrency control are built.
+  * *PostgreSQL 14 Internals* (Egor Rogov, free from Postgres Professional): the parts on isolation, MVCC and locks, for PostgreSQL's exact behavior.
+  * *Transaction Processing: Concepts and Techniques* (Jim Gray & Andreas Reuter): the classic reference when you want the theory behind locking and recovery.
+* **Official docs:** the PostgreSQL manual's "Concurrency Control" chapter (transaction isolation, explicit locking, serialization failures) and the MySQL Reference Manual's "InnoDB Locking and Transaction Model" section (gap and next-key locks).
+* **Papers:** "A Critique of ANSI SQL Isolation Levels" (Berenson et al., 1995); "Serializable Isolation for Snapshot Databases" (Cahill, Röhm & Fekete, 2008); "Serializable Snapshot Isolation in PostgreSQL" (Ports & Grittner, 2012).
+* **Related technologies:** compare PostgreSQL (SSI for `SERIALIZABLE`), MySQL/InnoDB (gap and next-key locks), Oracle (whose `SERIALIZABLE` is really snapshot isolation), and CockroachDB or FoundationDB (serializable by default).
+* **Search for:** `write skew`, `phantom read`, `MVCC visibility rules`, `next-key locking`, `serializable snapshot isolation`, `SKIP LOCKED job queue`, and Kleppmann's *Hermitage* project, which tests which anomalies each database actually prevents.
+* **Hands-on:** open two `psql` sessions side by side and reproduce each anomaly at each isolation level before reading the explanation.
