@@ -4,7 +4,6 @@
 
 * **Relational vs Document Models:** Compare the relational model (normalized tables, schema-on-write, joins) with the document model (nested JSON, schema-on-read, locality). When is the document model clearly better, and what is the write penalty for updating a small field inside a large document?
 * **Many-to-One & Many-to-Many:** Why do many-to-one and many-to-many relationships push document databases back toward relational ideas? What did the CODASYL network model get wrong with manual access paths?
-* **Graph Models:** Compare property graphs (Neo4j, Cypher) with triple stores (RDF, SPARQL). How does index-free adjacency speed up multi-hop traversals, and how does Datalog express recursive queries?
 * **Declarative vs Imperative Queries:** Why does a declarative language like SQL let the optimizer (and parallel execution) improve performance without changing application code?
 
 ## Encoding & Evolution
@@ -18,11 +17,10 @@
 ## Study Guide
 
 * **Books:**
-  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Data Models and Query Languages chapter covers relational vs document vs graph models, CODASYL, Cypher, SPARQL and Datalog, and the Encoding and Evolution chapter covers compatibility, the pitfalls of JSON, Protobuf/Thrift field tags and Avro schema resolution. Together they cover almost this entire deck.
-  * *Graph Databases* (Ian Robinson, Jim Webber & Emil Eifrem): the chapters on graph data modeling and graph database internals, for property graphs, Cypher and index-free adjacency.
+  * *Designing Data-Intensive Applications* (Martin Kleppmann): the Data Models and Query Languages chapter covers relational vs document models and CODASYL, and the Encoding and Evolution chapter covers compatibility, the pitfalls of JSON, Protobuf/Thrift field tags and Avro schema resolution. Together they cover almost this entire deck.
   * *Kafka: The Definitive Guide* (Gwen Shapira, Todd Palino, Rajini Sivaram & Krit Petty): the Kafka Producers chapter, for Avro serialization and how a schema registry plugs into producers and consumers.
-* **Official docs:** the Apache Avro specification's "Schema Resolution" and "Object Container Files" sections; the Protocol Buffers Language Guide, especially "Updating A Message Type"; Confluent's Schema Registry documentation on schema evolution and compatibility types; and the Neo4j Cypher Manual for pattern matching and variable-length paths.
+* **Official docs:** the Apache Avro specification's "Schema Resolution" and "Object Container Files" sections; the Protocol Buffers Language Guide, especially "Updating A Message Type"; and Confluent's Schema Registry documentation on schema evolution and compatibility types.
 * **Papers:** "A Relational Model of Data for Large Shared Data Banks" (E. F. Codd, 1970); "What Goes Around Comes Around" (Michael Stonebraker & Joseph M. Hellerstein, 2005), a tour of data models from CODASYL onward and why old ideas keep coming back.
-* **Related technologies:** compare PostgreSQL `JSONB` with MongoDB (document vs relational in practice), Neo4j with an RDF store such as Apache Jena (property graph vs triples), Datomic (Datalog in production), and Protobuf vs Avro vs Thrift vs MessagePack for encoding.
-* **Search for:** `schema-on-read vs schema-on-write`, `index-free adjacency`, `Datalog recursive query`, `protobuf reserved field numbers`, `Avro writer schema reader schema`, `schema registry compatibility types`, `JSON number precision 2^53`, and Kleppmann's blog post "Schema evolution in Avro, Protocol Buffers and Thrift".
+* **Related technologies:** compare PostgreSQL `JSONB` with MongoDB (document vs relational in practice) and Protobuf vs Avro vs Thrift vs MessagePack for encoding.
+* **Search for:** `schema-on-read vs schema-on-write`, `protobuf reserved field numbers`, `Avro writer schema reader schema`, `schema registry compatibility types`, `JSON number precision 2^53`, and Kleppmann's blog post "Schema evolution in Avro, Protocol Buffers and Thrift".
 * **Hands-on:** define the same record in Protobuf and Avro, serialize it, then add, remove and rename a field and check which old and new readers can still decode the bytes.

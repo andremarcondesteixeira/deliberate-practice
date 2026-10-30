@@ -26,7 +26,6 @@
   * *Setup:* A sensitive internal API's gateway reflects any `Origin` header back in `Access-Control-Allow-Origin` together with `Access-Control-Allow-Credentials: true`.
   * *Challenge:* Explain why browsers reject `*` with credentials but happily accept a reflected origin, how an attacker's site can read authenticated responses, and fix it with a strict origin allowlist.
 * **Security Headers:** Explain what HSTS (`max-age`, preload, SSL stripping), `X-Content-Type-Options: nosniff`, `frame-ancestors`/`X-Frame-Options` (clickjacking), and `Referrer-Policy` each prevent.
-* **Subresource Integrity:** How does SRI make sure the browser only runs third-party CDN scripts that match a known hash?
 
 ## Server-Side Vulnerabilities
 
@@ -52,7 +51,6 @@
   * *Setup:* A profile update endpoint binds JSON straight onto the `User` entity, so attackers send `"isAdmin": true`.
   * *Challenge:* Use explicit request DTOs with allowlisted fields, and explain how ORMs and frameworks make this easy to get wrong.
 * **API Input Validation:** How do schema validation (OpenAPI/JSON Schema), strict `Content-Type` enforcement, and size limits stop malformed, oversized, or unexpected payloads before they reach business logic?
-* **GraphQL Abuse:** How do deeply nested queries and batching/aliases enable denial of service and rate-limit bypass (e.g., thousands of login attempts in one request)? How do depth limits, complexity analysis, and persisted queries help?
 * **WebSocket Security:** How do you prevent cross-site WebSocket hijacking (checking `Origin`, authenticating on connect) and message flooding?
 * **Shadow & Zombie APIs:** What risks do undocumented (shadow) and forgotten old (zombie) API versions pose, and how do you find and retire them?
 * **Web Application Firewalls:** What can a WAF realistically block, how is it bypassed, and why is it a supplement to fixing code rather than a replacement?
@@ -62,9 +60,9 @@
 * **Books:**
   * *The Web Application Hacker's Handbook* (Dafydd Stuttard & Marcus Pinto): the chapters on injection, attacking users (XSS, CSRF), access controls and back-end components, for how each attack really works; it is old, but the fundamentals hold.
   * *The Tangled Web* (Michal Zalewski): the chapters on the same-origin policy, content sniffing and frame security, for why CORS, CSP and the security headers exist.
-  * *Hacking APIs* (Corey Ball): the chapters on exploiting authorization, mass assignment and attacking GraphQL, for the Access Control & APIs section.
+  * *Hacking APIs* (Corey Ball): the chapters on exploiting authorization and mass assignment, for the Access Control & APIs section.
   * *Web Application Security* (Andrew Hoffman): the defense part on XSS, CSRF, XXE and injection, plus secure architecture, for modern mitigations.
-* **Official docs:** the OWASP Top 10 and OWASP API Security Top 10; OWASP Cheat Sheet Series: SQL Injection Prevention, OS Command Injection Defense, XML External Entity Prevention, Deserialization, Cross Site Scripting Prevention, DOM based XSS Prevention, Content Security Policy, Cross-Site Request Forgery Prevention, Server Side Request Forgery Prevention, File Upload, Mass Assignment, GraphQL and HTTP Headers; the OWASP ASVS; the Fetch Standard's CORS section and MDN's CORS and CSP guides; JEP 290 and JEP 415 for Java deserialization filters; the AWS EC2 docs on IMDSv2.
+* **Official docs:** the OWASP Top 10 and OWASP API Security Top 10; OWASP Cheat Sheet Series: SQL Injection Prevention, OS Command Injection Defense, XML External Entity Prevention, Deserialization, Cross Site Scripting Prevention, DOM based XSS Prevention, Content Security Policy, Cross-Site Request Forgery Prevention, Server Side Request Forgery Prevention, File Upload, Mass Assignment and HTTP Headers; the OWASP ASVS; the Fetch Standard's CORS section and MDN's CORS and CSP guides; JEP 290 and JEP 415 for Java deserialization filters; the AWS EC2 docs on IMDSv2.
 * **Papers:** "CSP Is Dead, Long Live CSP! On the Insecurity of Whitelists and the Future of Content Security Policy" (Weichselbaum et al., 2016); "HTTP Desync Attacks: Request Smuggling Reborn" (James Kettle, PortSwigger research, 2019).
 * **Related technologies:** Burp Suite and OWASP ZAP, sqlmap, ysoserial, DOMPurify, RE2, Semgrep and CodeQL, and ModSecurity or Coraza with the OWASP Core Rule Set.
 * **Search for:** `PortSwigger Web Security Academy` (free labs for nearly every card here), `blind SQL injection time based`, `SSTI payloads`, `billion laughs`, `java deserialization gadget chain`, `strict-dynamic CSP`, `CORS origin reflection`, `DNS rebinding SSRF`, `catastrophic backtracking`, `prototype pollution`.

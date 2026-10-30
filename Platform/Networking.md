@@ -24,7 +24,6 @@
 * **WebSockets vs SSE:** Contrast WebSockets (full-duplex) with Server-Sent Events (server-to-client over plain HTTP, automatic reconnect) for real-time features. How do they scale behind load balancers?
 * **Idempotent HTTP Methods:** Which methods are safe, and which are idempotent by spec (`GET`, `HEAD`, `PUT`, `DELETE` vs `POST`, `PATCH`)? Why does it matter for proxies, retries, and clients?
 * **Content Negotiation & Compression:** How do `Accept`, `Content-Type`, `Accept-Encoding`, and `Content-Encoding` drive negotiation? When are gzip, Brotli, or zstd worth the CPU, and what is the BREACH risk when compressing secrets?
-* **GraphQL over HTTP:** Why do GraphQL APIs usually `POST` queries, how does that break HTTP caching at CDNs, and how do persisted queries help?
 * **Status Code Semantics:** Distinguish `401` vs `403`, `429` vs `503`, and `502` vs `504`. How should clients react to each (retry? honor `Retry-After`?)?
 
 ## DNS, Load Balancing & Edge
