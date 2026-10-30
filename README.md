@@ -2,7 +2,42 @@
 
 A zero-friction spaced repetition system that tests your technical knowledge cold every time you open your terminal. 
 
-Instead of traditional flashcards with answers on the back, these are **front-only deliberate practice challenges** designed to force active recall and highlight gaps in your mental models. The script automatically picks a random topic file (`.md`), parses its multi-line items intelligently, and displays a clean challenge card.
+Instead of traditional flashcards with answers on the back, these are **front-only deliberate practice challenges** designed to force active recall and highlight gaps in your mental models. The script parses every deck (`.md` file, in any folder), picks a random card you haven't seen yet in the current review cycle, and displays a clean challenge card.
+
+## 🔁 The 3-Month Review Cycle
+
+Every card is shown exactly once per cycle (90 days by default), in random order across all decks. When every card has been shown, a new cycle starts automatically. Each card shows a progress line telling you how many cards per day you need to finish the cycle on time:
+
+```
+| CYCLE:    312/926 cards · day 31/90 · 11/day to stay on track
+```
+
+Opening a terminal shows one card. To catch up, or to do a focused session, ask for more:
+
+```bash
+bash challenge.sh 5        # show 5 cards
+bash challenge.sh --status # show progress only
+```
+
+Progress is stored outside the repository in `~/.deliberate-practice` (override with `DELIBERATE_PRACTICE_STATE`), so it never creates Git noise. Set `CYCLE_DAYS` to change the cycle length.
+
+## 🗂️ Deck Layout
+
+Decks are grouped by domain, and each concept lives in exactly one deck:
+
+| Folder | Decks |
+| --- | --- |
+| `Distributed Systems/` | Time & Clocks, Replication & Consistency, Consensus & Coordination, Partitioning, Distributed Transactions, Batch & Stream Processing |
+| `Databases/` | Storage Engines & Indexing, Transactions & Isolation, Query Performance, SQL, PostgreSQL Internals, Operations, Data Models & Encoding, Specialized Datastores, MongoDB, Redis |
+| `Messaging/` | Apache Kafka, RabbitMQ |
+| `Architecture/` | Architectural Styles, DDD, Microservices, Event-Driven & Data Patterns, Resilience Patterns, Quality Attributes & Governance |
+| `Platform/` | Docker, Kubernetes, CI/CD & Delivery, Infrastructure as Code, Configuration & Secrets, Networking |
+| `Observability/` | Metrics, Logging, Tracing, SLOs/Alerting/Incidents, Profiling & Diagnostics |
+| `Security/` | Application Security, Authentication & Identity, Cryptography & TLS, Secure Delivery |
+| `Java/`, `Spring/` | Language, Concurrency, JVM & GC, Platform & Migration · Core & Boot, Data & Transactions, Web/Security/Cloud |
+| `AWS/` | Compute, Storage, Networking, Databases, IAM & Security, Integration, Management & Governance |
+
+The card topic shown in the terminal is `FOLDER / FILE`, and the subtitle is the `##` section the card belongs to.
 
 ## Setup
 
@@ -134,10 +169,16 @@ If you use PowerShell on Windows, you can invoke the script using the built-in `
 
 ## 📝 How to Add New Challenges
 
-1. Create a new `.md` file inside your repository folder (e.g., `distributed-systems.md`). The file name automatically becomes the topic header.
-2. Write your challenges as a simple bulleted or numbered list. Multi-line items are automatically supported as long as continuation lines are indented or follow the item:
+1. **Check whether the concept already has a home.** Search the decks first (`grep -ri "consistent hashing" .`). If a similar card exists, sharpen it instead of adding a near-duplicate.
+2. Add the card to the matching deck and `##` section, or create a new `.md` file in the matching folder. The folder and file name become the topic header.
+3. Write each challenge as a top-level bullet with a bold title. Indented lines belong to the card above them, which is how labs are written:
    ```markdown
-   * Explain how consistent hashing solves horizontal scaling hot-spots in distributed caching layers.
-   * What is the exact sequence of events during a TCP three-way handshake, and where do SYN-floods target it?
+   * **Consistent Hashing:** How does consistent hashing minimize key movement when nodes join or leave?
+   * **Lab — TIME_WAIT Port Exhaustion:**
+     * *Setup:* A client service starts failing with `EADDRNOTAVAIL`.
+     * *Challenge:* Explain why, and fix it.
    ```
-3. Commit and push your changes to GitHub to sync your practice deck across all your machines!
+4. Keep the deck reviewable: every ~90 new cards adds one card per day to the cycle. Prefer cards that test reasoning and trade-offs over trivia you'd look up anyway.
+5. Commit and push your changes to GitHub to sync your practice deck across all your machines!
+
+A card is identified by its first line, so editing that line makes it count as a new, unseen card in the current cycle.
