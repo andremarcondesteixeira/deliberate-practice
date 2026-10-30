@@ -6,11 +6,15 @@ Instead of traditional flashcards with answers on the back, these are **front-on
 
 ## 🔁 The 3-Month Review Cycle
 
-Every card is shown exactly once per cycle (90 days by default), in random order across all decks. When every card has been shown, a new cycle starts automatically. Each card shows a progress line telling you how many cards per day you need to finish the cycle on time:
+Every card comes up once per cycle (90 days by default), in random order across all decks, until you mark it done. When every card has been marked done, a new cycle starts automatically. Each card shows a progress line telling you how many cards per day you need to finish the cycle on time:
 
 ```
 | CYCLE:    312/926 cards · day 31/90 · 11/day to stay on track
 ```
+
+The cycle is a goal, not a deadline. If you take a break, nothing resets: your progress is kept and the daily target rises to cover the cards left in the days left. After day 90 the line shows how far past the goal you are instead (`· 12 day(s) past the 90-day goal`), and the cycle stays open until you finish it. The next cycle starts on the day you mark the last card. To start over with a fresh 90 days after a long break, reset your progress (see below).
+
+After each card you're asked `Mark this card as done? [y/N, q to quit]`. Only `y` counts the card as seen for the cycle; pressing Enter skips it and it stays in the pool for later, and `q` stops a multi-card session. If the script runs without an interactive terminal, nothing is marked.
 
 Opening a terminal shows one card. To catch up, or to do a focused session, ask for more:
 
@@ -19,7 +23,7 @@ bash challenge.sh 5        # show 5 cards
 bash challenge.sh --status # show progress only
 ```
 
-Progress is stored outside the repository in `~/.deliberate-practice` (override with `DELIBERATE_PRACTICE_STATE`), so it never creates Git noise. Set `CYCLE_DAYS` to change the cycle length.
+Progress is stored outside the repository in `~/.deliberate-practice` (override with `DELIBERATE_PRACTICE_STATE`), so it never creates Git noise. It holds two files: `seen` (one line per card you marked done) and `cycle_start` (when the current cycle began). To restart the cycle from scratch, delete the folder (`rm -rf ~/.deliberate-practice`); it is recreated on the next run. Set `CYCLE_DAYS` to change the cycle length.
 
 ## 🗂️ Deck Layout
 
